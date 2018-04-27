@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chamc.process.mapper.AttachmentMapper">
+
+    <sql id="columns">
+      id, name, ext, size, upload_time, uid, url
+    </sql>
+
+    <resultMap id="columnMap" type="Attachment">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="ext" property="ext"></result>
+        <result column="size" property="size"></result>
+        <result column="upload_time" property="uploadTime"></result>
+    </resultMap>
+
+    <select id="getUserAttach" resultMap="columnMap" parameterType="Long">
+        SELECT <include refid="columns"/> FROM s_attachment WHERE uid = #{userid}
+    </select>
+
+    <insert id="save" parameterType="Attachment" useGeneratedKeys="true">
+        INSERT INTO s_attachment (<include refid="columns"/>) VALUES (#{id}, #{name}, #{ext}, #{size}, NOW(), #{user.id}, #{url})
+    </insert>
+
+    <select id="getById" resultMap="columnMap" parameterType="Long">
+        SELECT <include refid="columns"/> FROM s_attachment WHERE id = #{id}
+    </select>
+
+    <delete id="deleteByIds" parameterType="Long">
+        DELETE FROM s_attachment WHERE id IN
+        <foreach collection="ids" index="index" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

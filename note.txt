@@ -1,0 +1,48 @@
+1.processDefinitionKey: 流程的唯一标识，比如请假流程，采购流程，或者说流程变更的版本号
+
+2.executionId:当流程中没有分支时，Execution等同于ProcessInstance，甚至连ID也相同；
+    当流程中存在分支(fork, parallel gateway)，则在分支口会形成子Execution，在下一个gateway才会合并(joined)
+
+3.流程定义含义：purchase:3:404 流程定义key， 版本号， 自增序列
+
+4.setOwner和setAssignee的区别在于
+  setOwner实在代理任务时使用，代表着任务的归属者，而这时，setAssignee代表的时代理办理者
+  例如总经理委托给助理
+      taskService.setOwner(taskA.getId(), 总经理.getId());
+      taskService.setAssignee/claim(taskA.getId(), 助理.getId());
+
+5.流程变量
+    1） 流程变量的获取针对流程实例（即1个流程），每个流程实例获取的流程变量时不同的
+    2） 使用基本类型获取流程变量，在 taskService 中使用任务 ID，流程变量的名称，获取流程变量的值。
+    3） Javabean 类型设置获取流程变量，除了需要这个 javabean 实现了Serializable 接口外，还要求流程变量对象的属性不能发生变化，否则抛出异常。解决方案，固定序列化 ID。
+
+6.什么时候设置，获取流程变量
+    1）RuntimeService对象可以设置流程变量和获取流程变量
+    2）TaskService对象可以设置流程变量和获取流程变量
+    3）流程实例启动的时候可以设置流程变量
+    4）任务办理完成的时候可以设置流程变量
+    5）流程变量可以通过名称/值的形式设置单个流程变量
+    6）流程变量可以通过Map集合，同时设置多个流程变量 Map集合的key表示流程变量的名称 Map集合的value表示流程变量的值
+
+7.setVariable和setVariableLocal的区别
+    setVariable： 设置流程变量的时候，流程变量名称相同的时候，后一次的值替换前一次的值，而且可以看到TASK_ID的字段不会存放任务ID的值
+    setVariableLocal：
+        1）设置流程变量的时候，针对当前活动的节点设置流程变量，如果一个流程中存在2个活动节点，对每个活动节点都设置流程变量，即使流程变量的名称相同，后一次的版本的值也不会替换前一次版本的值，它会使用不同的任务ID作为标识，存放2个流程变量值，而且可以看到TASK_ID的字段会存放任务ID的值。
+        2）还有，使用 setVariableLocal 说明流程变量绑定了当前的任务，当流程继续执行时，下个任务获取不到这个流程变量（因为正在执行的流程变量中没有这个数据），所有查询正在执行的任务时不能查询到我们需要的数据，此时需要查询历史的流程变量。
+
+8.流程定义Id是什么？和部署Id有什么关系？
+    processDefinitionId就是流程模型定义的Id，部署Id和它是一对多的关系，因为一次部署，可以部署多个流程定义
+
+9.短信：json格式请求，urlformed不行，但是留着当笔记吧
+    List<NameValuePair> params = new ArrayList<>();
+    String param = this.generateCode();
+    this.request.getSession().setAttribute("vcode",param);
+    params.add(new BasicNameValuePair("accountSid", accountSid));
+    params.add(new BasicNameValuePair("token", token));
+    params.add(new BasicNameValuePair("appid", appid));
+    params.add(new BasicNameValuePair("templateId", templateId));
+    params.add(new BasicNameValuePair("param", param));
+    params.add(new BasicNameValuePair("mobile", phoneNumber));
+    params.add(new BasicNameValuePair("uid", "2d92c6132139467b989d087c84a365d8"));
+
+    httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));

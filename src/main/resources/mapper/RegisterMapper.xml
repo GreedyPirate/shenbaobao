@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chamc.process.mapper.RegisterMapper">
+
+    <sql id="columns">
+    id, reg_type, enterprise_zh, enterprise_en
+    regist_zh, regist_en, regist_code, work_code,
+    work_place_zh, work_place_en, area_name, area_code,
+    license_code, enterprise_type, currency, capital,
+    economic_type, leader, leader_tele, contact, contact_tele,
+    contact_email, email_receive, website, product_info, invoice_title,
+    tax_number, tax_addr, open_bank, create_time, uid, status
+    </sql>
+
+    <resultMap id="columnMap" type="Attachment">
+        <id column="id" property="id"></id>
+        <result column="reg_type" property="regType"></result>
+        <result column="enterprise_zh" property="enterpriseZh"></result>
+        <result column="enterprise_en" property="enterpriseEn"></result>
+        <result column="regist_zh" property="registZh"></result>
+        <result column="regist_en" property="registEn"></result>
+        <result column="regist_code" property="registPostcode"></result>
+        <result column="work_code" property="workPostcode"></result>
+        <result column="work_place_zh" property="workplaceZh"></result>
+        <result column="work_place_en" property="workplaceEn"></result>
+        <result column="area_name" property="adminarea"></result>
+        <result column="area_code" property="adminareaCode"></result>
+        <result column="license_code" property="licenseCode"></result>
+        <result column="enterprise_type" property="enterpriseType"></result>
+        <result column="currency" property="currency"></result>
+        <result column="capital" property="capital"></result>
+        <result column="economic_type" property="economicType"></result>
+        <result column="leader" property="leader"></result>
+        <result column="leader_tele" property="leaderTele"></result>
+        <result column="contact" property="contact"></result>
+        <result column="contact_tele" property="contactTele"></result>
+        <result column="contact_email" property="contactEmail"></result>
+        <result column="email_receive" property="emailReceive"></result>
+        <result column="website" property="website"></result>
+        <result column="product_info" property="productInfo"></result>
+        <result column="invoice_title" property="invoiceTitle"></result>
+        <result column="tax_number" property="taxNumber"></result>
+        <result column="tax_addr" property="taxAddr"></result>
+        <result column="open_bank" property="openBank"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="uid" property="userid"></result>
+        <result column="status" property="status"></result>
+    </resultMap>
+
+    <insert id="save" useGeneratedKeys="true" parameterType="register">
+        INSERT INTO s_register (<include refid="columns"/>)
+        VALUES (#{id},#{regType},#{enterpriseZh},#{enterpriseEn},#{registZh},#{registEn},
+        #{registPostcode},#{workPostcode},#{workplaceZh},#{workplaceEn},
+        #{adminarea},#{adminareaCode},#{licenseCode},#{enterpriseType},#{currency},#{capital},
+        #{economicType},#{leader},#{leaderTele},#{contact},#{contactTele},#{contactEmail},
+        #{emailReceive},#{website},#{productInfo},#{invoiceTitle},#{taxNumber},#{openBank},NOW(),#{userid}, #{status})
+    </insert>
+
+    <select id="getByUserId" parameterType="Long" resultMap="columnMap">
+        SELECT <include refid="columns"/> FROM s_register WHERE uid = #{userId}
+    </select>
+</mapper>
