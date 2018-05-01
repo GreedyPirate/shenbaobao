@@ -3,6 +3,7 @@ package com.chamc.process.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Jaynnay on 2017/12/24
@@ -15,9 +16,13 @@ public class User implements Serializable{
     private String username;
     private String password;
     private String avatar;
+    private String email;
 
-    private Integer accountNonExpired;
-    private Integer accountNonLocked;
-    private Integer passwordNonExpired;
-    private Integer enabled;
+    private Date createTime;
+    private Date updateTime;
+
+//    private Integer accountNonExpired;
+//    private Integer accountNonLocked;
+//    private Integer passwordNonExpired;
+//    private Integer enabled;
 }

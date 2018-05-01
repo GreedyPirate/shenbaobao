@@ -5,6 +5,8 @@ public enum ErrorCode {
     ERROR_VCODE(102, "验证码错误"),
     HAS_BEEN_REGISTED(103,"已被注册"),
     UPLAOD_FAIL(104, "附件上传失败"),
+    NO_SUCH_USER(105, "无此用户信息"),
+    ILLEGAL_OPERATION(106, "非法操作"),
     INTERNAL_SERVER_ERROR(500, "未知的服务器错误")
     ;
 
@@ -13,7 +15,8 @@ public enum ErrorCode {
     private String message;
 
     ErrorCode(Integer code, String message) {
-        this.code = code * FACTOR;
+        //this.code = code * FACTOR;
+        this.code = code;
         this.message = message;
     }
 

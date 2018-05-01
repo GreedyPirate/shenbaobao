@@ -20,4 +20,7 @@ public class Attachment implements Serializable{
     private Date uploadTime;
     private String url;
     private Long uid;
+
+    private Date createTime;
+    private Date updateTime;
 }
