@@ -30,4 +30,10 @@ public interface UserMapper{
 
     @Update("update s_user set avatar = #{path}, update_time = NOW() where id = #{id}")
     public Integer updateAvatar(@Param("id") Long id, @Param("path") String path);
+
+    @Update("update s_user set avatar = #{base64}, update_time = NOW() where id = #{id}")
+    public Integer updateAvatarBase64(@Param("id") Long id, @Param("base64") String base64 );
+
+    @Update("update s_user set phone_no = #{phone}, update_time = NOW() where id = #{id}")
+    public Integer updatePhone(@Param("id") Long id, @Param("phone") String phone);
 }

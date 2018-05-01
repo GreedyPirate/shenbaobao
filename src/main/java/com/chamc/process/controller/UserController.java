@@ -92,8 +92,12 @@ public class UserController {
 
     @PostMapping("modify/email")
     public Boolean modifyEmail(SetEmailParam param){
-        User user = (User) request.getSession().getAttribute("user");
         return this.userService.setEmail(param.getId(),param.getEmail());
+    }
+
+    @PostMapping("modify/phone")
+    public Boolean modifyPhone(Long id, String phone){
+        return this.userService.updatePhone(id, phone);
     }
 
     /**
@@ -106,8 +110,24 @@ public class UserController {
         return this.userService.getUserInfo(id);
     }
 
+    /**
+     * 基于base64的头像上传方案 @primary
+     * @param id
+     * @param cropImg
+     * @return
+     */
+    @PostMapping("avatar/base64")
+    public Boolean uploadAvatarBase64(Long id, String cropImg){
+        return this.userService.uploadAvatarBase64(id, cropImg);
+    }
+
+    /**
+     * 基于MultipartFile的头像上传方案
+     * @param id
+     * @param files
+     */
     @PostMapping("avatar")
-    public void uploadAvatar(Long id, MultipartFile file){
-        this.userService.uploadAvatar(id, file);
+    public Boolean uploadAvatar(Long id, MultipartFile files){
+        return this.userService.uploadAvatar(id, files);
     }
 }

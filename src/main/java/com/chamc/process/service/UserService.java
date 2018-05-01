@@ -99,11 +99,18 @@ public class UserService {
      * 电话号码脱敏
      */
     private String desensitization(String number) {
-        return number.replaceAll("(\\d{3})\\d{4}(\\d4)", "$1****$2");
+        return number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
     }
 
-    public Boolean uploadAvatar(Long id, MultipartFile file) {
-        String path = this.saveLocal(file);
+    @Transactional
+    public Boolean uploadAvatarBase64(Long id, String base64) {
+        Integer result = this.userMapper.updateAvatar(id, base64);
+        return new Boolean(result == 1 ? true : false);
+    }
+
+    @Transactional
+    public Boolean uploadAvatar(Long id, MultipartFile files) {
+        String path = this.saveLocal(files);
         Integer result = this.userMapper.updateAvatar(id, path);
         return new Boolean(result == 1 ? true : false);
     }
@@ -117,8 +124,10 @@ public class UserService {
             // 雪花算法
             String fileName = file.getOriginalFilename();
             String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
-            SnowFlake snowFlake = new SnowFlake(10001l, 20001l);
-            Path path = Paths.get(floder, snowFlake.nextId() + ext);
+            SnowFlake snowFlake = new SnowFlake(10, 2);
+            StringBuilder builder = new StringBuilder();
+            builder.append(snowFlake.nextId()).append(".").append(ext);
+            Path path = Paths.get(floder, builder.toString());
             Files.write(path, bytes);
             return path.toString();
         } catch (IOException e) {
@@ -142,4 +151,9 @@ public class UserService {
         return null;
     }
 
+    @Transactional
+    public Boolean updatePhone(Long id, String phone){
+        Integer result = this.userMapper.updatePhone(id, phone);
+        return new Boolean(result == 1 ? true : false);
+    }
 }
