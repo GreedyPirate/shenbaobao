@@ -8,10 +8,15 @@
         <result column="password" property="password"></result>
         <result column="phone_no" property="phoneNumber"></result>
         <result column="avatar" property="avatar"></result>
+        <result column="email" property="email"></result>
     </resultMap>
 
     <sql id="columns">
-      id, username, PASSWORD, phone_no, avatar
+      id, username, PASSWORD, phone_no, avatar, email
+    </sql>
+
+    <sql id="desensitization">
+        id, username, phone_no, avatar, email
     </sql>
 
     <select id="findByUsername" resultMap="basicMap" parameterType="String">
@@ -22,5 +27,9 @@
     <select id="findByNamePass" resultMap="basicMap">
         SELECT id, username, phone_no, avatar
         FROM s_user WHERE phone_no=#{phoneNumber} AND password=#{password}
+    </select>
+
+    <select id="getById" resultMap="basicMap">
+        SELECT <include refid="desensitization"/> FROM s_user WHERE id = #{id}
     </select>
 </mapper>

@@ -4,6 +4,7 @@ import com.chamc.process.entity.Attachment;
 import com.chamc.process.entity.Register;
 import com.chamc.process.entity.User;
 import com.chamc.process.service.FileService;
+import com.chamc.process.service.RegistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,13 @@ public class FormController {
     @Autowired
     HttpServletRequest request;
 
-    @PostMapping("")
-    public Boolean regist(Register register){
+    @Autowired
+    RegistService registService;
 
-        return Boolean.TRUE;
+    @PostMapping("form")
+    public Boolean regist(Register register){
+        // TODO adminarea 问题
+        return this.registService.regist(register);
     }
 
     @GetMapping("attachments")

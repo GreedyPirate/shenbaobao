@@ -45,8 +45,10 @@ public class Register implements Serializable {
     private String taxNumber;
     private String taxAddr;
     private String openBank;
-    private Date createTime;
-    private Long userid;
 
+    private Date createTime;
+    private Date updateTime;
+    private Long userid;
     private Integer status;
+
 }
