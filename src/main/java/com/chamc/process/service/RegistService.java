@@ -18,6 +18,6 @@ public class RegistService {
     @Transactional
     public Boolean regist(Register register){
         int save = this.registerMapper.save(register);
-        return new Boolean(save == 1?true:false);
+        return new Boolean(save == 1);
     }
 }

@@ -43,10 +43,14 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        ResponseModel model = new ResponseModel();
-        model.setCode(200);
-        model.setData(body);
-        model.setMsg(null);
-        return model;
+        NoWrapper annotation = methodParameter.getMethod().getAnnotation(NoWrapper.class);
+        if(annotation == null){
+            ResponseModel model = new ResponseModel();
+            model.setCode(200);
+            model.setData(body);
+            model.setMsg(null);
+            return model;
+        }
+        return body;
     }
 }

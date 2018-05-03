@@ -20,12 +20,21 @@
     </select>
 
     <insert id="save" parameterType="Attachment" useGeneratedKeys="true">
-        INSERT INTO s_attachment (<include refid="columns"/>) VALUES (#{id}, #{name}, #{ext}, #{size}, NOW(), #{user.id}, #{url})
+        INSERT INTO s_attachment (<include refid="columns"/>) VALUES (#{id}, #{name}, #{ext}, #{size}, NOW(), #{uid}, #{url})
     </insert>
 
     <select id="getById" resultMap="columnMap" parameterType="Long">
         SELECT <include refid="columns"/> FROM s_attachment WHERE id = #{id}
     </select>
+
+    <select id="getUrlByIds">
+        SELECT id, url
+        FROM s_attachment
+        WHERE id in <foreach collection="ids" item="id" separator="," open="(" close=")" index="idx">
+                      #(id)
+                    </foreach>
+    </select>
+
 
     <delete id="deleteByIds" parameterType="Long">
         DELETE FROM s_attachment WHERE id IN

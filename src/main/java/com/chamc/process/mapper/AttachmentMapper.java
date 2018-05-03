@@ -24,5 +24,7 @@ public interface AttachmentMapper{
 
     public Attachment getById(@Param("id") Long id);
 
-    public void deleteByIds(@Param("ids") Long[] ids);
+    public List<Attachment> getUrlByIds(Long[] ids);
+
+    public Integer deleteByIds(@Param("ids") Long[] ids);
 }

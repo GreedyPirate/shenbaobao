@@ -17,7 +17,7 @@ public interface FileService {
 
     public Attachment getById(Long id);
 
-    public void deleteById(Long[] ids);
+    public Boolean deleteById(Long[] ids);
 
     default String makeDir() throws IOException{
         String date = DateUtils.format(new Date(),"yyyyMMdd");

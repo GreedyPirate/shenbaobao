@@ -105,14 +105,14 @@ public class UserService {
     @Transactional
     public Boolean uploadAvatarBase64(Long id, String base64) {
         Integer result = this.userMapper.updateAvatar(id, base64);
-        return new Boolean(result == 1 ? true : false);
+        return new Boolean(result == 1);
     }
 
     @Transactional
     public Boolean uploadAvatar(Long id, MultipartFile files) {
         String path = this.saveLocal(files);
         Integer result = this.userMapper.updateAvatar(id, path);
-        return new Boolean(result == 1 ? true : false);
+        return new Boolean(result == 1);
     }
 
     private String saveLocal(MultipartFile file) {
@@ -154,6 +154,6 @@ public class UserService {
     @Transactional
     public Boolean updatePhone(Long id, String phone){
         Integer result = this.userMapper.updatePhone(id, phone);
-        return new Boolean(result == 1 ? true : false);
+        return new Boolean(result == 1);
     }
 }
