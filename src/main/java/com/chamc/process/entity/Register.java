@@ -23,7 +23,7 @@ public class Register implements Serializable {
     private String workplaceZh;
     private String workplaceEn;
 
-    private String adminarea;
+    private String[] adminarea;
     private String adminareaCode;
     /*private String belongCenter;*/
     private String licenseCode;
@@ -33,7 +33,7 @@ public class Register implements Serializable {
     private Integer economicType;
 
     private String leader;
-    private Integer leaderTele;
+    private String leaderTele;
     private String contact;
     private String contactTele;
     private String contactEmail;

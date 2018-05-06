@@ -9,6 +9,9 @@ public interface UserMapper{
 
     public List<User> findByUsername(String username);
 
+    @Select("select count(*) from s_user where phone_no = #{phoneNumber}")
+    public User findByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
     public User findByNamePass(@Param("phoneNumber") String phoneNumber,@Param("password") String password);
 
     @Insert("insert into s_user(username,password,phoneNumber, create_time) values(#{username},#{password},#{phoneNumber}, NOW())")

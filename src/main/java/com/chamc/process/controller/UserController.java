@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by Jaynnay on 2017/12/24
@@ -55,10 +54,9 @@ public class UserController {
      * @return
      */
     @PutMapping("register")
-    public User regist(SignUpParam signUpParam){
+    public Boolean regist(SignUpParam signUpParam){
         //手机号是否已被注册
-        List<User> users = this.userService.checkUser(signUpParam.getPhoneNumber());
-        if(users != null && users.size() > 0){
+        if(this.userService.checkUser(signUpParam.getPhoneNumber()).booleanValue()){
             throw new ProcessException(ErrorCode.HAS_BEEN_REGISTED);
         }
         // 校验验证码

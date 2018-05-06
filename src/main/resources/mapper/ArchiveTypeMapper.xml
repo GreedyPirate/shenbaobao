@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chamc.process.mapper.ArchiveTypeMapper">
+
+    <resultMap id="basicMap" type="ArchiveType">
+        <id column="id" property="id"></id>
+        <result column="code" property="code"></result>
+        <result column="name" property="name"></result>
+        <collection property="archiveDetails" column="archiveid" ofType="ArchiveDetail">
+            <id column="bid" property="id"></id>
+            <result column="bname" property="name"></result>
+        </collection>
+    </resultMap>
+
+
+    <select id="getArchives" resultMap="basicMap">
+        SELECT a.id,a.name, a.code, b.id as bid, b.name as bname FROM s_archives a
+        INNER JOIN s_archive_detail b
+        ON a.id=b.archiveid
+    </select>
+
+</mapper>

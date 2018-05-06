@@ -31,9 +31,14 @@ public class UCPassService implements MessageService {
     @Autowired
     HttpServletRequest request;
 
+    /**
+     * 云之讯
+     * 发送验证码
+     * @param phoneNumber
+     * @return
+     */
     @Override
     public String sendMessage(String phoneNumber) {
-        phoneNumber = "18335166203";
         CloseableHttpClient httpclient = null;
         HttpPost httpPost = null;
         CloseableHttpResponse response = null;

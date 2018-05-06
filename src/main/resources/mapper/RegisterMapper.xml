@@ -4,7 +4,7 @@
 <mapper namespace="com.chamc.process.mapper.RegisterMapper">
 
     <sql id="columns">
-    id, reg_type, enterprise_zh, enterprise_en
+    id, reg_type, enterprise_zh, enterprise_en,
     regist_zh, regist_en, regist_code, work_code,
     work_place_zh, work_place_en, area_name, area_code,
     license_code, enterprise_type, currency, capital,
@@ -24,7 +24,7 @@
         <result column="work_code" property="workPostcode"></result>
         <result column="work_place_zh" property="workplaceZh"></result>
         <result column="work_place_en" property="workplaceEn"></result>
-        <result column="area_name" property="adminarea"></result>
+        <result column="area_name" property="adminarea" typeHandler="com.chamc.process.utils.typeHandler.AdminareaHandler"></result>
         <result column="area_code" property="adminareaCode"></result>
         <result column="license_code" property="licenseCode"></result>
         <result column="enterprise_type" property="enterpriseType"></result>
@@ -52,7 +52,7 @@
         INSERT INTO s_register (<include refid="columns"/>)
         VALUES (#{id},#{regType},#{enterpriseZh},#{enterpriseEn},#{registZh},#{registEn},
         #{registPostcode},#{workPostcode},#{workplaceZh},#{workplaceEn},
-        #{adminarea},#{adminareaCode},#{licenseCode},#{enterpriseType},#{currency},#{capital},
+        #{adminarea, typeHandler=com.chamc.process.utils.typeHandler.AdminareaHandler},#{adminareaCode},#{licenseCode},#{enterpriseType},#{currency},#{capital},
         #{economicType},#{leader},#{leaderTele},#{contact},#{contactTele},#{contactEmail},
         #{emailReceive},#{website},#{productInfo},#{invoiceTitle},#{taxNumber},#{openBank},NOW(),#{userid}, #{status})
     </insert>

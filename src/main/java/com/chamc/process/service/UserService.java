@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Created by Jaynnay on 2017/12/24
@@ -39,14 +38,13 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = {ProcessException.class, Exception.class})
-    public User registUser(User user) {
-        long count = this.userMapper.save(user);
-        return user;
+    public Boolean registUser(User user) {
+        return new Boolean(this.userMapper.save(user) == 1);
     }
 
-    public List<User> checkUser(String username) {
-        List<User> exitUser = this.userMapper.findByUsername(username);
-        return exitUser;
+    public Boolean checkUser(String username) {
+        User exitUser = this.userMapper.findByPhoneNumber(username);
+        return exitUser == null;
     }
 
     /**

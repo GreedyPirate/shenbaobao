@@ -1,8 +1,10 @@
 package com.chamc.process.controller;
 
+import com.chamc.process.entity.ArchiveType;
 import com.chamc.process.entity.Attachment;
 import com.chamc.process.entity.Register;
 import com.chamc.process.entity.User;
+import com.chamc.process.service.ArchiveService;
 import com.chamc.process.service.FileService;
 import com.chamc.process.service.RegistService;
 import com.chamc.process.utils.interceptor.NoWrapper;
@@ -36,6 +38,14 @@ public class FormController {
 
     @Autowired
     RegistService registService;
+
+    @Autowired
+    ArchiveService archiveService;
+
+    @GetMapping("archives")
+    public List<ArchiveType> getArchives(){
+        return this.archiveService.getArchives();
+    }
 
     @PostMapping("form")
     public Boolean regist(Register register){
