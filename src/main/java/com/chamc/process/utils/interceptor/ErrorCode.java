@@ -7,6 +7,7 @@ public enum ErrorCode {
     UPLAOD_FAIL(104, "附件上传失败"),
     NO_SUCH_USER(105, "无此用户信息"),
     ILLEGAL_OPERATION(106, "非法操作"),
+    TOO_MUSH_REGISTER(107, "用户至多有一条未审批申请"),
     INTERNAL_SERVER_ERROR(500, "未知的服务器错误")
     ;
 

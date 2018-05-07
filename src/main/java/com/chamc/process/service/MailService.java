@@ -18,14 +18,13 @@ public class MailService {
     @Autowired
     MailSender mailSender;
 
-    @Value("${spring.mail.from:993203876@qq.com}")
+    @Value("${spring.mail.from:xxx@qq.com}")
     String from;
 
     public Boolean send(SimpleMailMessage message){
         try {
             message.setFrom(from);
             mailSender.send(message);
-            logger.info("发送邮件成功，主题为{}，内容为{}",message.getSubject(),message.getText());
             return Boolean.TRUE;
         } catch (MailException e) {
             e.printStackTrace();

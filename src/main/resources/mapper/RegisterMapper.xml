@@ -8,9 +8,10 @@
     regist_zh, regist_en, regist_code, work_code,
     work_place_zh, work_place_en, area_name, area_code,
     license_code, enterprise_type, currency, capital,
-    economic_type, leader, leader_tele, contact, contact_tele,
-    contact_email, email_receive, website, product_info, invoice_title,
-    tax_number, tax_addr, open_bank, create_time, uid, status
+    economic_type, leader, leader_tele, contact,
+    contact_tele,contact_email, email_receive, website,
+    product_info, invoice_title,tax_number, tax_addr,
+    open_bank, create_time, update_time, uid, status
     </sql>
 
     <resultMap id="columnMap" type="Attachment">
@@ -44,7 +45,18 @@
         <result column="tax_addr" property="taxAddr"></result>
         <result column="open_bank" property="openBank"></result>
         <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
         <result column="uid" property="userid"></result>
+        <result column="status" property="status"></result>
+    </resultMap>
+
+    <resultMap id="preview" type="com.chamc.process.controller.response.PreviewForm">
+        <result column="type" property="type"></result>
+        <result column="enterprise_zh" property="name"></result>
+        <result column="regist_zh" property="addr"></result>
+        <result column="capital" property="money"></result>
+        <result column="contact" property="contact"></result>
+        <result column="contact_tele" property="tel"></result>
         <result column="status" property="status"></result>
     </resultMap>
 
@@ -54,10 +66,32 @@
         #{registPostcode},#{workPostcode},#{workplaceZh},#{workplaceEn},
         #{adminarea, typeHandler=com.chamc.process.utils.typeHandler.AdminareaHandler},#{adminareaCode},#{licenseCode},#{enterpriseType},#{currency},#{capital},
         #{economicType},#{leader},#{leaderTele},#{contact},#{contactTele},#{contactEmail},
-        #{emailReceive},#{website},#{productInfo},#{invoiceTitle},#{taxNumber},#{openBank},NOW(),#{userid}, #{status})
+        #{emailReceive},#{website},#{productInfo},#{invoiceTitle},#{taxNumber},#{taxAddr},#{openBank},NOW(),NOW(),#{userid}, #{status})
     </insert>
 
     <select id="getByUserId" parameterType="Long" resultMap="columnMap">
         SELECT <include refid="columns"/> FROM s_register WHERE uid = #{userId}
+    </select>
+
+    <select id="getPreview" resultMap="preview" parameterType="Long">
+        SELECT b.name AS type, a.enterprise_zh,a.regist_zh,a.capital,a.contact,a.contact_tele, a.status
+        FROM s_archive_detail b
+        RIGHT JOIN s_register a
+        ON a.reg_type = b.id
+        WHERE a.uid = #{userId}
+    </select>
+
+    <select id="getAll" resultType="Integer">
+        SELECT count(*)
+        FROM s_register
+        WHERE uid = #{userId} and status = 0
+    </select>
+
+    <select id="getAppList" resultMap="preview" parameterType="Long">
+        SELECT b.name AS type, a.enterprise_zh,a.regist_zh,a.capital,a.contact,a.contact_tele, a.status
+        FROM s_archive_detail b
+        RIGHT JOIN s_register a
+        ON a.reg_type = b.id
+        WHERE a.status = 0
     </select>
 </mapper>

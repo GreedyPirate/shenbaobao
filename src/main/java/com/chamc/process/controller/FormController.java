@@ -49,9 +49,9 @@ public class FormController {
 
     @PostMapping("form")
     public Boolean regist(Register register){
-        // TODO adminarea 问题
         return this.registService.regist(register);
     }
+
 
     @GetMapping("attachments")
     public List<Attachment> getAttachments() {
