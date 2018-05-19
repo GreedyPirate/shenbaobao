@@ -8,6 +8,8 @@ public enum ErrorCode {
     NO_SUCH_USER(105, "无此用户信息"),
     ILLEGAL_OPERATION(106, "非法操作"),
     TOO_MUSH_REGISTER(107, "用户至多有一条未审批申请"),
+    BUILD_PDF_FAIL(108,"生成pdf失败"),
+    IDS_CAN_NOT_BE_NUL(109,"请选择要删除的文件"),
     INTERNAL_SERVER_ERROR(500, "未知的服务器错误")
     ;
 

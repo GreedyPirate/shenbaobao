@@ -27,14 +27,13 @@
         SELECT <include refid="columns"/> FROM s_attachment WHERE id = #{id}
     </select>
 
-    <select id="getUrlByIds">
+    <select id="getUrlByIds" parameterType="Long">
         SELECT id, url
         FROM s_attachment
         WHERE id in <foreach collection="ids" item="id" separator="," open="(" close=")" index="idx">
                       #(id)
                     </foreach>
     </select>
-
 
     <delete id="deleteByIds" parameterType="Long">
         DELETE FROM s_attachment WHERE id IN

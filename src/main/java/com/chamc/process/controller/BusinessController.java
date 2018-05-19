@@ -1,12 +1,21 @@
 package com.chamc.process.controller;
 
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
+import com.chamc.process.constants.FileSubfix;
 import com.chamc.process.controller.response.PreviewForm;
+import com.chamc.process.entity.Register;
 import com.chamc.process.service.RegistService;
+import com.chamc.process.utils.interceptor.NoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +28,56 @@ public class BusinessController {
     @Autowired
     RegistService registerService;
 
-    @GetMapping("preview")
+    /**
+     * 待办列表
+     * @return
+     */
+    @GetMapping("tasks")
+    public List<PreviewForm> tasks(){
+        return this.registerService.getAppList();
+    }
+
+    /**
+     * 个人办理业务预览
+     * @param id
+     * @return
+     */
+    @PostMapping("preview")
     public List<PreviewForm> preview(Long id){
         return this.registerService.getPreview(id);
+    }
+
+    /**
+     * 下载excel
+     * @param response
+     * @param uid
+     * @throws Exception
+     */
+    @GetMapping("excel")
+    @NoWrapper
+    public void downloadExcel(HttpServletResponse response, Long uid) throws Exception{
+        Register excelDetial = this.registerService.getExcelData(uid);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + excelDetial.getEnterpriseZh() + FileSubfix.EXCEL);
+        ExcelWriter writer = new ExcelWriter(response.getOutputStream(), ExcelTypeEnum.XLSX);
+        //写第一个sheet, sheet1  数据全是List<String> 无模型映射关系
+        Sheet sheet1 = new Sheet(1, 0,Register.class);
+        List data = new ArrayList<>(1);
+        data.add(excelDetial);
+        writer.write(data, sheet1);
+        writer.finish();
+    }
+
+    /**
+     * 下载pdf
+     * @param response
+     * @param uid
+     * @throws Exception
+     */
+    @GetMapping("pdf")
+    @NoWrapper
+    public void downloadPDF(HttpServletResponse response, Long uid) throws Exception{
+        this.registerService.buildPDF(response, uid);
     }
 }

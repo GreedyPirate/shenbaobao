@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @Data
 public class PreviewForm {
 
+    private Long id;
     private String type;
     private String name;
     private String addr;

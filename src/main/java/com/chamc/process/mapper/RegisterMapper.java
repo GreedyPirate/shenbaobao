@@ -9,11 +9,13 @@ import java.util.List;
 public interface RegisterMapper{
     public int save(Register register);
 
-    public Register getByUserId(@Param("userId") Long userId);
+    public List<Register> getByUserId(@Param("userId") Long userId);
 
     public List<PreviewForm> getPreview(@Param("userId") Long userId);
 
     public List<PreviewForm> getAppList();
 
     public Integer getAll(@Param("userId") Long userId);
+
+    public Register getExcelDetial(@Param("userId") Long userId);
 }
