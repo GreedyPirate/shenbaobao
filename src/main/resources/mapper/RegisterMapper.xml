@@ -75,7 +75,7 @@
     </select>
 
     <select id="getPreview" resultMap="preview" parameterType="Long">
-        SELECT b.name AS type, a.enterprise_zh,a.regist_zh,a.capital,a.contact,a.contact_tele, a.status
+        SELECT a.id, b.name AS type, a.enterprise_zh,a.regist_zh,a.capital,a.contact,a.contact_tele, a.status
         FROM s_archive_detail b
         RIGHT JOIN s_register a
         ON a.reg_type = b.id
@@ -101,5 +101,21 @@
         capital, leader, contact, contact_tele, website, product_info, invoice_title, tax_number, tax_addr, open_bank
         FROM s_register
         WHERE uid = #{userId}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM s_register WHERE id = #{id}
+    </delete>
+
+    <select id="getById" resultMap="columnMap" parameterType="Long">
+        SELECT <include refid="columns"/> FROM s_register WHERE id = #{id}
+    </select>
+
+    <update id="approve">
+        UPDATE s_register set status = 2 WHERE id = #{id}
+    </update>
+
+    <select id="isEmail" parameterType="Integer">
+        SELECT email, email_receive FROM s_register WHERE id = #{id}
     </select>
 </mapper>

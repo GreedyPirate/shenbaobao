@@ -9,10 +9,7 @@ import com.chamc.process.entity.Register;
 import com.chamc.process.service.RegistService;
 import com.chamc.process.utils.interceptor.NoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -61,7 +58,6 @@ public class BusinessController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;fileName=" + excelDetial.getEnterpriseZh() + FileSubfix.EXCEL);
         ExcelWriter writer = new ExcelWriter(response.getOutputStream(), ExcelTypeEnum.XLSX);
-        //写第一个sheet, sheet1  数据全是List<String> 无模型映射关系
         Sheet sheet1 = new Sheet(1, 0,Register.class);
         List data = new ArrayList<>(1);
         data.add(excelDetial);
@@ -79,5 +75,20 @@ public class BusinessController {
     @NoWrapper
     public void downloadPDF(HttpServletResponse response, Long uid) throws Exception{
         this.registerService.buildPDF(response, uid);
+    }
+
+    @PostMapping("delete")
+    public Boolean delete(Long id){
+        return this.registerService.delete(id);
+    }
+
+    @GetMapping("detail")
+    public Register getAllInfo(Long id){
+        return this.registerService.getById(id);
+    }
+
+    @PostMapping("approve")
+    public Boolean approve(Long id){
+        return this.registerService.approve(id);
     }
 }

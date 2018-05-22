@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface RegisterMapper{
+public interface RegisterMapper {
     public int save(Register register);
 
     public List<Register> getByUserId(@Param("userId") Long userId);
@@ -18,4 +18,12 @@ public interface RegisterMapper{
     public Integer getAll(@Param("userId") Long userId);
 
     public Register getExcelDetial(@Param("userId") Long userId);
+
+    public Integer deleteById(@Param("id") Long id);
+
+    public Register getById(@Param("id") Long id);
+
+    public Integer approve(@Param("id") Long id);
+
+    public Integer isEmail(@Param("id") Long id);
 }

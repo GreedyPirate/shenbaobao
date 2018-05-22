@@ -19,9 +19,10 @@ import freemarker.template.TemplateExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,23 +44,32 @@ public class RegistService {
 
     private Logger logger = LoggerFactory.getLogger(RegistService.class);
 
+    private final static Integer IS_EMAIL = 34;
+
     @Autowired
     RegisterMapper registerMapper;
 
     @Autowired
     HttpServletRequest request;
 
+    @Autowired
+    MailService mailService;
+
     @Transactional
     public Boolean regist(Register register){
         User user = (User) request.getSession().getAttribute("user");
         Integer count = this.getCount(user.getId());
         if(count != null && count > 1){
-            throw new ProcessException(ErrorCode.TOO_MUSH_REGISTER);
+            throw new ProcessException(ErrorCode.YOU_HAVE_ALREADY_REGISTED);
         }
         register.setUserid(user.getId());
         register.setStatus(1);
         int save = this.registerMapper.save(register);
         return new Boolean(save == 1);
+    }
+
+    public Register getById(Long id){
+        return this.registerMapper.getById(id);
     }
 
     public List<PreviewForm> getPreview(Long userId){
@@ -84,6 +94,10 @@ public class RegistService {
         Register excelDetial = this.registerMapper.getExcelDetial(userId);
         if(null == excelDetial) throw new ProcessException(ErrorCode.INTERNAL_SERVER_ERROR);
         return excelDetial;
+    }
+
+    public Boolean delete(Long id){
+        return new Boolean(this.registerMapper.deleteById(id) == 1);
     }
 
     /**
@@ -171,4 +185,22 @@ public class RegistService {
     private Integer getCount(Long userId){
         return this.registerMapper.getAll(userId);
     }
+
+    public Boolean approve(Long id){
+        return new Boolean(this.registerMapper.approve(id) == 1);
+    }
+
+
+    @Async("taskExecutor")
+    public void sendEmail(Long id){
+        Integer email = this.registerMapper.isEmail(id);
+        if(email !=null && email.equals(IS_EMAIL)){
+            SimpleMailMessage message = new SimpleMailMessage();
+//            message.setTo();
+            message.setSubject("企业注册申请办理进度通知");
+            message.setText("您的申请已审批通过");
+            mailService.send(message);
+        }
+    }
+
 }

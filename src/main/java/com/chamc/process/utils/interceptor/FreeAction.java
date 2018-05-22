@@ -3,11 +3,11 @@ package com.chamc.process.utils.interceptor;
 import java.lang.annotation.*;
 
 /**
- * 不需要保证返回体，用于下载
+ * 不需要检查是否已登陆
  */
 @Documented
 @Inherited
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoWrapper {
+public @interface FreeAction {
 }

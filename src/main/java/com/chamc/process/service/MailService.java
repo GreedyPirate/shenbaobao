@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
     private Logger logger = LoggerFactory.getLogger(MailService.class);
+    @Value("${spring.mail.from:993203876@qq.com}")
+    String from;
+
+
     @Autowired
     MailSender mailSender;
-
-    @Value("${spring.mail.from:xxx@qq.com}")
-    String from;
 
     public Boolean send(SimpleMailMessage message){
         try {

@@ -20,9 +20,9 @@ public class MailTest {
     @Test
     public void testMail(){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("1370707282@qq.com");
-        message.setSubject("spring boot test");
-        message.setText("这是一个测试邮件");
+        message.setTo("xxx@qq.com");
+        message.setSubject("企业注册申请办理进度通知");
+        message.setText("您的申请已审批通过");
         mailService.send(message);
     }
 }
