@@ -56,7 +56,8 @@ public class BusinessController {
         Register excelDetial = this.registerService.getExcelData(uid);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;fileName=" + excelDetial.getEnterpriseZh() + FileSubfix.EXCEL);
+        String filename = new String(excelDetial.getEnterpriseZh().getBytes(),"ISO-8859-1");
+        response.setHeader("Content-Disposition", "attachment;fileName=" +  filename + FileSubfix.EXCEL);
         ExcelWriter writer = new ExcelWriter(response.getOutputStream(), ExcelTypeEnum.XLSX);
         Sheet sheet1 = new Sheet(1, 0,Register.class);
         List data = new ArrayList<>(1);
