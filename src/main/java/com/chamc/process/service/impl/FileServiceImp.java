@@ -4,6 +4,7 @@ import com.chamc.process.entity.Attachment;
 import com.chamc.process.entity.User;
 import com.chamc.process.mapper.AttachmentMapper;
 import com.chamc.process.service.FileService;
+import com.chamc.process.utils.SnowFlake;
 import com.chamc.process.utils.interceptor.ErrorCode;
 import com.chamc.process.utils.interceptor.ProcessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,17 +42,16 @@ public class FileServiceImp implements FileService {
     @Transactional
     public List<Attachment> upload(MultipartFile file) {
         try {
-            byte[] bytes = new byte[0];
-            bytes = file.getBytes();
-            Path path = Paths.get(this.makeDir(), file.getOriginalFilename());
-            Files.write(path, bytes);
-
             User user = (User) request.getSession().getAttribute("user");
             Attachment upload = new Attachment();
+            SnowFlake snowFlake = new SnowFlake(2, 3);
             upload.setSize(file.getSize());
             String fileName = file.getOriginalFilename();
             upload.setName(fileName);
-            upload.setExt(fileName.substring(fileName.lastIndexOf('.') + 1));
+            String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            upload.setExt(ext);
+            Long name = snowFlake.nextId();
+            Path path = saveFile(file, name, ext);
             upload.setUid(user.getId());
             upload.setUrl(path.toString());
             attachmentMapper.save(upload);
@@ -61,6 +61,15 @@ public class FileServiceImp implements FileService {
         } catch (IOException e) {
             throw new ProcessException(ErrorCode.UPLAOD_FAIL);
         }
+    }
+
+    private Path saveFile(MultipartFile file, Long name, String ext) throws IOException {
+        byte[] bytes = new byte[0];
+        bytes = file.getBytes();
+        //雪花id作为文件名
+        Path path = Paths.get(this.makeDir(), name + "." + ext);
+        Files.write(path, bytes);
+        return path;
     }
 
     @Override
@@ -76,18 +85,22 @@ public class FileServiceImp implements FileService {
         if (!CollectionUtils.isEmpty(files)) {
             for (Attachment file : files) {
                 File f = new File(file.getUrl());
-                if(f.exists()){
+                if (f.exists()) {
                     boolean success = f.delete();
-                    if(success){
+                    if (success) {
                         // 文件删除成功，才去删记录
                         delIds.add(file.getId());
                     }
-                }else{
+                } else {
                     continue;
                 }
             }
+            Long[] param = delIds.toArray(new Long[delIds.size()]);
+            Integer count = this.attachmentMapper.deleteByIds(param);
+            return new Boolean(count > 0);
         }
-        Integer count = this.attachmentMapper.deleteByIds((Long[]) delIds.toArray());
-        return new Boolean(count>0);
+        return Boolean.FALSE;
     }
+
+
 }

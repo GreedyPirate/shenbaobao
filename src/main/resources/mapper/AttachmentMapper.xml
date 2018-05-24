@@ -27,11 +27,11 @@
         SELECT <include refid="columns"/> FROM s_attachment WHERE id = #{id}
     </select>
 
-    <select id="getUrlByIds" parameterType="Long">
+    <select id="getUrlByIds" parameterType="Long" resultMap="columnMap">
         SELECT id, url
         FROM s_attachment
         WHERE id in <foreach collection="ids" item="id" separator="," open="(" close=")" index="idx">
-                      #(id)
+                      #{id}
                     </foreach>
     </select>
 
