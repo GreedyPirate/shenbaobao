@@ -6,6 +6,7 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.chamc.process.constants.FileSubfix;
 import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
+import com.chamc.process.mapper.bo.RegisterDetail;
 import com.chamc.process.service.RegistService;
 import com.chamc.process.utils.interceptor.NoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class BusinessController {
     }
 
     @GetMapping("detail")
-    public Register getAllInfo(Long id){
+    public RegisterDetail getAllInfo(Long id){
         return this.registerService.getById(id);
     }
 

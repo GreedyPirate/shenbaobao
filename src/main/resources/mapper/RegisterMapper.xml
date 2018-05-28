@@ -25,7 +25,8 @@
         <result column="work_code" property="workPostcode"></result>
         <result column="work_place_zh" property="workplaceZh"></result>
         <result column="work_place_en" property="workplaceEn"></result>
-        <result column="area_name" property="adminarea" typeHandler="com.chamc.process.utils.typeHandler.AdminareaHandler"></result>
+        <result column="area_name" property="adminarea"
+                typeHandler="com.chamc.process.utils.typeHandler.AdminareaHandler"></result>
         <result column="area_code" property="adminareaCode"></result>
         <result column="license_code" property="licenseCode"></result>
         <result column="enterprise_type" property="enterpriseType"></result>
@@ -61,17 +62,64 @@
         <result column="status" property="status"></result>
     </resultMap>
 
+
+    <resultMap id="locationMap" type="Location">
+        <result column="provice" property="provice"></result>
+        <result column="city" property="city"></result>
+        <result column="town" property="town"></result>
+    </resultMap>
+
+    <resultMap id="detailMap" type="RegisterDetail">
+        <id column="id" property="id"></id>
+        <result column="reg_name" property="regType"></result>
+        <result column="enterprise_name" property="enterpriseZh"></result>
+        <result column="enterprise_en" property="enterpriseEn"></result>
+        <result column="regist_zh" property="registZh"></result>
+        <result column="regist_en" property="registEn"></result>
+        <result column="regist_code" property="registPostcode"></result>
+        <result column="work_code" property="workPostcode"></result>
+        <result column="work_place_zh" property="workplaceZh"></result>
+        <result column="work_place_en" property="workplaceEn"></result>
+        <result column="area_name" property="adminarea"
+                typeHandler="com.chamc.process.utils.typeHandler.AdminareaHandler"></result>
+        <result column="area_code" property="adminareaCode"></result>
+        <result column="license_code" property="licenseCode"></result>
+        <result column="enterprise_type" property="enterpriseType"></result>
+        <result column="currency_name" property="currency"></result>
+        <result column="capital" property="capital"></result>
+        <result column="economic_name" property="economicType"></result>
+        <result column="leader" property="leader"></result>
+        <result column="leader_tele" property="leaderTele"></result>
+        <result column="contact" property="contact"></result>
+        <result column="contact_tele" property="contactTele"></result>
+        <result column="contact_email" property="contactEmail"></result>
+        <result column="email_receive" property="emailReceive"></result>
+        <result column="website" property="website"></result>
+        <result column="product_info" property="productInfo"></result>
+        <result column="invoice_title" property="invoiceTitle"></result>
+        <result column="tax_number" property="taxNumber"></result>
+        <result column="tax_addr" property="taxAddr"></result>
+        <result column="open_bank" property="openBank"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="uid" property="userid"></result>
+        <result column="status" property="status"></result>
+    </resultMap>
+
     <insert id="save" useGeneratedKeys="true" parameterType="register">
         INSERT INTO s_register (<include refid="columns"/>)
         VALUES (#{id},#{regType},#{enterpriseZh},#{enterpriseEn},#{registZh},#{registEn},
         #{registPostcode},#{workPostcode},#{workplaceZh},#{workplaceEn},
         #{adminarea, typeHandler=com.chamc.process.utils.typeHandler.AdminareaHandler},#{adminareaCode},#{licenseCode},#{enterpriseType},#{currency},#{capital},
         #{economicType},#{leader},#{leaderTele},#{contact},#{contactTele},#{contactEmail},
-        #{emailReceive},#{website},#{productInfo},#{invoiceTitle},#{taxNumber},#{taxAddr},#{openBank},NOW(),NOW(),#{userid}, #{status})
+        #{emailReceive},#{website},#{productInfo},#{invoiceTitle},#{taxNumber},#{taxAddr},#{openBank},NOW(),NOW(),#{userid},
+        #{status})
     </insert>
 
     <select id="getByUserId" parameterType="Long" resultMap="columnMap">
-        SELECT <include refid="columns"/> FROM s_register WHERE uid = #{userId}
+        SELECT
+        <include refid="columns"/>
+        FROM s_register WHERE uid = #{userId}
     </select>
 
     <select id="getPreview" resultMap="preview" parameterType="Long">
@@ -108,7 +156,9 @@
     </delete>
 
     <select id="getById" resultMap="columnMap" parameterType="Long">
-        SELECT <include refid="columns"/> FROM s_register WHERE id = #{id}
+        SELECT
+        <include refid="columns"/>
+        FROM s_register WHERE id = #{id}
     </select>
 
     <update id="approve">
@@ -117,5 +167,36 @@
 
     <select id="isEmail" parameterType="Integer">
         SELECT email, email_receive FROM s_register WHERE id = #{id}
+    </select>
+
+
+    <select id="queryDetail" resultMap="detailMap" parameterType="Long">
+        SELECT
+          a.id,  a.enterprise_zh, a.enterprise_en,
+          a.regist_zh, a.regist_en, a.regist_code, a.work_code,
+          a.work_place_zh, a.work_place_en, a.area_name, a.area_code,
+          a.license_code, a.currency,a.area_name,
+          a.leader, a.leader_tele, a.contact,
+          a.contact_tele,a.contact_email, a.website,
+          a.product_info, a.invoice_title,a.tax_number, a.tax_addr,
+          open_bank, b1.name AS reg_name, b3.name AS enterprise_name,
+          b4.name AS currency_name, b5.name AS economic_name
+        FROM s_register a
+        LEFT JOIN s_archive_detail b1 ON a.reg_type = b1.id
+        LEFT JOIN s_archive_detail b3 ON a.enterprise_type = b3.id
+        LEFT JOIN s_archive_detail b4 ON a.currency = b4.id
+        LEFT JOIN s_archive_detail b5 ON a.economic_type = b5.id
+        WHERE a.id = #{id}
+    </select>
+
+
+    <!-- 将区域码转为名称 -->
+    <select id="queryLocation" resultMap="locationMap">
+        SELECT NAME AS provice,(
+        SELECT NAME FROM s_region
+        WHERE id = #{city} ) AS city,(
+        SELECT NAME FROM s_region
+        WHERE id = #{town} ) AS town FROM s_region
+        WHERE id = #{province}
     </select>
 </mapper>

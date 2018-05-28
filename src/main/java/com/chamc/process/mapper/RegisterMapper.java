@@ -2,6 +2,8 @@ package com.chamc.process.mapper;
 
 import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
+import com.chamc.process.mapper.bo.Location;
+import com.chamc.process.mapper.bo.RegisterDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,4 +28,7 @@ public interface RegisterMapper {
     public Integer approve(@Param("id") Long id);
 
     public Integer isEmail(@Param("id") Long id);
+
+    public RegisterDetail queryDetail (@Param("id") Long id);
+    public Location queryLocation(@Param("province") Integer province,@Param("city") Integer city,@Param("town") Integer town);
 }

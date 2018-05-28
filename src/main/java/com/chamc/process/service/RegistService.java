@@ -5,6 +5,9 @@ import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
 import com.chamc.process.entity.User;
 import com.chamc.process.mapper.RegisterMapper;
+import com.chamc.process.mapper.bo.Location;
+import com.chamc.process.mapper.bo.RegisterDetail;
+import com.chamc.process.mapper.factory.RegisterDetailFactory;
 import com.chamc.process.utils.interceptor.ErrorCode;
 import com.chamc.process.utils.interceptor.ProcessException;
 import com.itextpdf.text.Document;
@@ -68,8 +71,14 @@ public class RegistService {
         return new Boolean(save == 1);
     }
 
-    public Register getById(Long id){
-        return this.registerMapper.getById(id);
+    public RegisterDetail getById(Long id){
+        RegisterDetail registerDetail = this.registerMapper.queryDetail(id);
+        String[] adminarea = registerDetail.getAdminarea();
+        Integer provice = Integer.parseInt(adminarea[0]);
+        Integer city = Integer.parseInt(adminarea[1]);
+        Integer town = Integer.parseInt(adminarea[2]);
+        Location location = this.registerMapper.queryLocation(provice, city, town);
+        return RegisterDetailFactory.build(registerDetail,location);
     }
 
     public List<PreviewForm> getPreview(Long userId){
