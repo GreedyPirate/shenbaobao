@@ -128,4 +128,11 @@ public class UserController {
     public Boolean uploadAvatar(Long id, MultipartFile files){
         return this.userService.uploadAvatar(id, files);
     }
+
+    /**
+     * 用户注销
+     */
+    public void logout(){
+        request.getSession().removeAttribute("user");
+    }
 }
