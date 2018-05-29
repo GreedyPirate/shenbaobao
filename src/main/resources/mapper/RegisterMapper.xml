@@ -72,7 +72,7 @@
     <resultMap id="detailMap" type="RegisterDetail">
         <id column="id" property="id"></id>
         <result column="reg_name" property="regType"></result>
-        <result column="enterprise_name" property="enterpriseZh"></result>
+        <result column="enterprise_zh" property="enterpriseZh"></result>
         <result column="enterprise_en" property="enterpriseEn"></result>
         <result column="regist_zh" property="registZh"></result>
         <result column="regist_en" property="registEn"></result>
@@ -84,7 +84,7 @@
                 typeHandler="com.chamc.process.utils.typeHandler.AdminareaHandler"></result>
         <result column="area_code" property="adminareaCode"></result>
         <result column="license_code" property="licenseCode"></result>
-        <result column="enterprise_type" property="enterpriseType"></result>
+        <result column="enterprise_name" property="enterpriseType"></result>
         <result column="currency_name" property="currency"></result>
         <result column="capital" property="capital"></result>
         <result column="economic_name" property="economicType"></result>
@@ -176,7 +176,7 @@
           a.regist_zh, a.regist_en, a.regist_code, a.work_code,
           a.work_place_zh, a.work_place_en, a.area_name, a.area_code,
           a.license_code, a.currency,a.area_name,
-          a.leader, a.leader_tele, a.contact,
+          a.leader, a.leader_tele, a.contact,a.capital,
           a.contact_tele,a.contact_email, a.website,
           a.product_info, a.invoice_title,a.tax_number, a.tax_addr,
           open_bank, b1.name AS reg_name, b3.name AS enterprise_name,
