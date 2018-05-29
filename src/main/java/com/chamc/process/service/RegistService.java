@@ -1,10 +1,12 @@
 package com.chamc.process.service;
 
 import com.chamc.process.constants.FileSubfix;
+import com.chamc.process.controller.request.ApproveParam;
 import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
 import com.chamc.process.entity.User;
 import com.chamc.process.mapper.RegisterMapper;
+import com.chamc.process.mapper.bo.EmailInfo;
 import com.chamc.process.mapper.bo.Location;
 import com.chamc.process.mapper.bo.RegisterDetail;
 import com.chamc.process.mapper.factory.RegisterDetailFactory;
@@ -26,6 +28,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -195,21 +198,19 @@ public class RegistService {
         return this.registerMapper.getAll(userId);
     }
 
-    public Boolean approve(Long id){
-        return new Boolean(this.registerMapper.approve(id) == 1);
-    }
-
-
     @Async("taskExecutor")
     public void sendEmail(Long id){
-        Integer email = this.registerMapper.isEmail(id);
-        if(email !=null && email.equals(IS_EMAIL)){
+        EmailInfo email = this.registerMapper.isEmail(id);
+        if(email !=null && !StringUtils.isEmpty(email.getEmail()) && email.getReceive().equals(IS_EMAIL)){
             SimpleMailMessage message = new SimpleMailMessage();
-//            message.setTo();
+            message.setTo(email.getEmail());
             message.setSubject("企业注册申请办理进度通知");
             message.setText("您的申请已审批通过");
             mailService.send(message);
         }
     }
 
+    public Boolean approve(ApproveParam approveParam){
+        return new Boolean(this.registerMapper.updateStatus(approveParam.getPass(),approveParam.getMemo(),approveParam.getId()) == 1);
+    }
 }

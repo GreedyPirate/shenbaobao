@@ -69,5 +69,6 @@ public class Register extends BaseRowModel implements Serializable  {
     private Date updateTime;
     private Long userid;
     private Integer status;
+    private String comment;
 
 }

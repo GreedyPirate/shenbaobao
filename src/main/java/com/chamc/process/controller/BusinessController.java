@@ -4,13 +4,17 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.chamc.process.constants.FileSubfix;
+import com.chamc.process.controller.request.ApproveParam;
 import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
 import com.chamc.process.mapper.bo.RegisterDetail;
 import com.chamc.process.service.RegistService;
 import com.chamc.process.utils.interceptor.NoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -90,7 +94,11 @@ public class BusinessController {
     }
 
     @PostMapping("approve")
-    public Boolean approve(Long id){
-        return this.registerService.approve(id);
+    public Boolean approve(ApproveParam approveParam){
+        Boolean isSuccess = this.registerService.approve(approveParam);
+        if(isSuccess.booleanValue()){
+            this.registerService.sendEmail(approveParam.getId());
+        }
+        return isSuccess;
     }
 }

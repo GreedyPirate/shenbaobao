@@ -106,6 +106,11 @@
         <result column="status" property="status"></result>
     </resultMap>
 
+    <resultMap id="emailMap" type="EmailInfo">
+        <result column="email" property="email"></result>
+        <result column="email_receive" property="receive"></result>
+    </resultMap>
+
     <insert id="save" useGeneratedKeys="true" parameterType="register">
         INSERT INTO s_register (<include refid="columns"/>)
         VALUES (#{id},#{regType},#{enterpriseZh},#{enterpriseEn},#{registZh},#{registEn},
@@ -161,10 +166,6 @@
         FROM s_register WHERE id = #{id}
     </select>
 
-    <update id="approve">
-        UPDATE s_register set status = 2 WHERE id = #{id}
-    </update>
-
     <select id="isEmail" parameterType="Integer">
         SELECT email, email_receive FROM s_register WHERE id = #{id}
     </select>
@@ -199,4 +200,12 @@
         WHERE id = #{town} ) AS town FROM s_region
         WHERE id = #{province}
     </select>
+
+    <update id="updateStatus">
+        UPDATE s_register SET status = #{status}
+        <if test="comment != null">
+            , comment = #{comment}
+        </if>
+        WHERE id = #{id}
+    </update>
 </mapper>

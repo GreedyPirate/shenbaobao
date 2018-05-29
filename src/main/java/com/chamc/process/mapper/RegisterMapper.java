@@ -2,6 +2,7 @@ package com.chamc.process.mapper;
 
 import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
+import com.chamc.process.mapper.bo.EmailInfo;
 import com.chamc.process.mapper.bo.Location;
 import com.chamc.process.mapper.bo.RegisterDetail;
 import org.apache.ibatis.annotations.Param;
@@ -25,10 +26,11 @@ public interface RegisterMapper {
 
     public Register getById(@Param("id") Long id);
 
-    public Integer approve(@Param("id") Long id);
-
-    public Integer isEmail(@Param("id") Long id);
+    public EmailInfo isEmail(@Param("id") Long id);
 
     public RegisterDetail queryDetail (@Param("id") Long id);
+
     public Location queryLocation(@Param("province") Integer province,@Param("city") Integer city,@Param("town") Integer town);
+
+    public Integer updateStatus(@Param("status") Integer status,@Param("comment") String comment,@Param("id") Long id);
 }

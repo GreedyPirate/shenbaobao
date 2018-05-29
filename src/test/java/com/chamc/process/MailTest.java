@@ -20,9 +20,14 @@ public class MailTest {
     @Test
     public void testMail(){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("xxx@qq.com");
+        message.setTo("1370707282@qq.com");
         message.setSubject("企业注册申请办理进度通知");
         message.setText("您的申请已审批通过");
         mailService.send(message);
+    }
+
+    @Test
+    public void testHTMLMail(){
+        mailService.sendHtmlMail("1370707282@qq.com","企业申请审批结果通知","您的申请已通过");
     }
 }
