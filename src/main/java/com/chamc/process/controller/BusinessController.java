@@ -11,6 +11,7 @@ import com.chamc.process.mapper.bo.RegisterDetail;
 import com.chamc.process.service.RegistService;
 import com.chamc.process.utils.interceptor.NoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,9 @@ public class BusinessController {
 
     @Autowired
     RegistService registerService;
+
+    @Value("${mail.send.enable:false}")
+    boolean enableMail;
 
     /**
      * 待办列表
@@ -96,7 +100,7 @@ public class BusinessController {
     @PostMapping("approve")
     public Boolean approve(ApproveParam approveParam){
         Boolean isSuccess = this.registerService.approve(approveParam);
-        if(isSuccess.booleanValue()){
+        if(isSuccess.booleanValue() && enableMail){
             this.registerService.sendEmail(approveParam.getId());
         }
         return isSuccess;

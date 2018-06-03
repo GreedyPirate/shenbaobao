@@ -166,8 +166,8 @@
         FROM s_register WHERE id = #{id}
     </select>
 
-    <select id="isEmail" parameterType="Integer">
-        SELECT email, email_receive FROM s_register WHERE id = #{id}
+    <select id="isEmail" parameterType="Long">
+        SELECT contact_email, email_receive FROM s_register WHERE id = #{id}
     </select>
 
 

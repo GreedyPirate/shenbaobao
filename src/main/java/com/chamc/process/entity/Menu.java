@@ -8,10 +8,12 @@ import java.util.Date;
  * Created by Jaynnay on 2018/5/29
  **/
 @Data
-public class SysRole {
+public class Menu {
     private Short id;
-    private String name;
-    private String code;
+    private String icon;
+    private String index;
+    private String title;
+    private Short parentId;
     private Date createTime;
     private Date updateTime;
 }

@@ -4,9 +4,11 @@ import com.chamc.process.controller.request.LoginParam;
 import com.chamc.process.controller.request.ModifyPwdParam;
 import com.chamc.process.controller.request.SetEmailParam;
 import com.chamc.process.controller.request.SignUpParam;
+import com.chamc.process.entity.Menu;
 import com.chamc.process.entity.User;
 import com.chamc.process.entity.factory.UserFactory;
 import com.chamc.process.service.MessageService;
+import com.chamc.process.service.PrivilegeService;
 import com.chamc.process.service.UserService;
 import com.chamc.process.utils.interceptor.ErrorCode;
 import com.chamc.process.utils.interceptor.ProcessException;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by Jaynnay on 2017/12/24
@@ -33,6 +36,9 @@ public class UserController {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    PrivilegeService privilegeService;
+
     /**
      * 用户登录
      * @param loginParam
@@ -46,6 +52,11 @@ public class UserController {
         }
         request.getSession().setAttribute("user",login);
         return login;
+    }
+
+    @PostMapping("menus")
+    public List<Menu> getMenu(Long id){
+        return this.privilegeService.getUserMenu(id);
     }
 
     /**

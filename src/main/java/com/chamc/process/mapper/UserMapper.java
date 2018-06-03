@@ -39,4 +39,7 @@ public interface UserMapper{
 
     @Update("update s_user set phone_no = #{phone}, update_time = NOW() where id = #{id}")
     public Integer updatePhone(@Param("id") Long id, @Param("phone") String phone);
+
+    @Select("SELECT u.role_id FROM s_user u WHERE u.id = #{id}")
+    public Integer getRoleId(@Param("id") Long id);
 }

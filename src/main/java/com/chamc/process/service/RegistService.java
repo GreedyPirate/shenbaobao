@@ -65,7 +65,7 @@ public class RegistService {
     public Boolean regist(Register register){
         User user = (User) request.getSession().getAttribute("user");
         Integer count = this.getCount(user.getId());
-        if(count != null && count > 1){
+        if(count != null && count > 0){
             throw new ProcessException(ErrorCode.YOU_HAVE_ALREADY_REGISTED);
         }
         register.setUserid(user.getId());

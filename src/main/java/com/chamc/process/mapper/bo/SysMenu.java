@@ -1,11 +1,11 @@
-package com.chamc.process.entity;
+package com.chamc.process.mapper.bo;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.util.List;
 
 /**
- * Created by Jaynnay on 2018/5/29
+ * Created by Jaynnay on 2018/6/2
  **/
 @Data
 public class SysMenu {
@@ -14,6 +14,5 @@ public class SysMenu {
     private String index;
     private String title;
     private Short parentId;
-    private Date createTime;
-    private Date updateTime;
+    private List<SysMenu> subs;
 }

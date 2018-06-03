@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chamc.process.mapper.MenuMapper">
+    <resultMap id="basicMap" type="SysMenu">
+        <id column="id" property="id"></id>
+        <result column="icon" property="icon"></result>
+        <result column="index" property="index"></result>
+        <result column="title" property="title"></result>
+        <result column="parent_id" property="parentId"></result>
+        <collection property="subs" column="id"
+                    javaType="java.util.List" ofType="SysMenu" select="getSubs">
+        </collection>
+    </resultMap>
+
+    <select id="getSubs" resultMap="basicMap">
+        select m.icon, m.index, m.title FROM s_menu m WHERE m.parent_id = #{id}
+    </select>
+
+    <select id="getMenus" resultMap="basicMap">
+        SELECT m.id,m.icon,m.index,m.title,m.parent_id FROM s_menu m
+        RIGHT JOIN s_role_menu rm
+        ON m.id = rm.mid
+        WHERE rm.rid = #{roleId}
+    </select>
+</mapper>
