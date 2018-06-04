@@ -22,5 +22,6 @@ public class UCPassMessage {
             result.append(sources.charAt(rand.nextInt(9)) + "");
         }
         System.out.println(result.toString());
+        System.out.println(1>1);
     }
 }

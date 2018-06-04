@@ -36,14 +36,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .allowCredentials(true).maxAge(3600);
     }
 
-  /*
-    没用
-    @Override
-    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
-        returnValueHandlers.add(new ReturnValueInterceptor());
-        super.addReturnValueHandlers(returnValueHandlers);
-    }*/
-
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {

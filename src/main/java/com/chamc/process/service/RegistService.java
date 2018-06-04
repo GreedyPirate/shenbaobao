@@ -104,7 +104,9 @@ public class RegistService {
 
     public Register getExcelData(Long userId){
         Register excelDetial = this.registerMapper.getExcelDetial(userId);
-        if(null == excelDetial) throw new ProcessException(ErrorCode.INTERNAL_SERVER_ERROR);
+        if(null == excelDetial) {
+            throw new ProcessException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
         return excelDetial;
     }
 

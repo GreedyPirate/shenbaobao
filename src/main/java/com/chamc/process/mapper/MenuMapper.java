@@ -8,7 +8,11 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface MenuMapper {
+    /**
+     * 获取角色对应的菜单
+     * @param roleId
+     * @return
+     */
     public List<SysMenu> getMenus(@Param("roleId") Integer roleId);
 
-    public List<SysMenu> getSubs(@Param("id") Integer id);
 }
