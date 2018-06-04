@@ -8,13 +8,10 @@
         <result column="index" property="index"></result>
         <result column="title" property="title"></result>
         <result column="parent_id" property="parentId"></result>
-        <collection property="subs" column="id"
-                    javaType="java.util.List" ofType="SysMenu" select="getSubs">
-        </collection>
     </resultMap>
 
     <select id="getSubs" resultMap="basicMap">
-        select m.icon, m.index, m.title FROM s_menu m WHERE m.parent_id = #{id}
+        select m.id, m.icon, m.index, m.title FROM s_menu m WHERE id = #{id}
     </select>
 
     <select id="getMenus" resultMap="basicMap">

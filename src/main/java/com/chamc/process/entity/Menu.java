@@ -9,11 +9,11 @@ import java.util.Date;
  **/
 @Data
 public class Menu {
-    private Short id;
+    private Integer id;
     private String icon;
     private String index;
     private String title;
-    private Short parentId;
+    private Integer parentId;
     private Date createTime;
     private Date updateTime;
 }

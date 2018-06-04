@@ -16,6 +16,8 @@ public interface RegisterMapper {
 
     public List<PreviewForm> getPreview(@Param("userId") Long userId);
 
+    public List<PreviewForm> getPreviewByType(@Param("userId") Long userId, @Param("type") Long id);
+
     public List<PreviewForm> getAppList();
 
     public Integer getAll(@Param("userId") Long userId);

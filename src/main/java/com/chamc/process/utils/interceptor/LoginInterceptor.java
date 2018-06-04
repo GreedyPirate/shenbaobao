@@ -1,5 +1,6 @@
 package com.chamc.process.utils.interceptor;
 
+import com.chamc.process.entity.User;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,6 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
+        String url = httpServletRequest.getRequestURI();
+        if(url.contains("login")){
+            return true;
+        }
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        if(user == null){
+            return false;
+        }
         return true;
     }
 

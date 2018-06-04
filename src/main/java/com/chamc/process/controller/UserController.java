@@ -7,6 +7,7 @@ import com.chamc.process.controller.request.SignUpParam;
 import com.chamc.process.entity.Menu;
 import com.chamc.process.entity.User;
 import com.chamc.process.entity.factory.UserFactory;
+import com.chamc.process.mapper.bo.SysMenu;
 import com.chamc.process.service.MessageService;
 import com.chamc.process.service.PrivilegeService;
 import com.chamc.process.service.UserService;
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("menus")
-    public List<Menu> getMenu(Long id){
+    public List<SysMenu> getMenu(Long id){
         return this.privilegeService.getUserMenu(id);
     }
 

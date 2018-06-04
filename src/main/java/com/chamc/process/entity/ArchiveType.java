@@ -2,6 +2,7 @@ package com.chamc.process.entity;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,6 @@ public class ArchiveType {
     private String name;
     private String code;
 
-    private List<ArchiveDetail> archiveDetails;
+    private List<ArchiveDetail> archiveDetails = new ArrayList<>();
 
 }
