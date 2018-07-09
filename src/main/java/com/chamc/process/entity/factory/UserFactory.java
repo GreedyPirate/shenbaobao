@@ -11,7 +11,6 @@ public class UserFactory {
         User user = new User();
         user.setUsername(param.getUsername());
         user.setPassword(param.getPassword());
-        user.setPassword(param.getPhoneNumber());
         return user;
     }
 }
