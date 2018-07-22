@@ -10,6 +10,7 @@ public class UserFactory {
     public static User signUpUser(SignUpParam param){
         User user = new User();
         user.setUsername(param.getUsername());
+        user.setPhoneNumber(param.getPhoneNumber());
         user.setPassword(param.getPassword());
         return user;
     }

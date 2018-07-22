@@ -1,20 +1,14 @@
 package com.chamc.process.config;
 
-import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Https配置，暂不开启
  */
-/*@Configuration*/
+//@Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Value("${server.port}")
@@ -29,14 +23,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "OPTIONS", "PUT")
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "OPTIONS", "PUT")
                 .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
                         "Access-Control-Request-Headers","accessToken")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-                .allowCredentials(true).maxAge(3600);
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 
-    @Bean
+    /*@Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = "https.enable", havingValue = "true", matchIfMissing = false)
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
             @Override
@@ -52,7 +51,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
         return tomcat;
-    }
+    }*/
 
     private Connector initiateHttpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");

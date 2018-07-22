@@ -1,16 +1,21 @@
 package com.chamc.process.service;
 
 import com.chamc.process.controller.request.LoginParam;
+import com.chamc.process.controller.request.SignUpParam;
 import com.chamc.process.entity.User;
+import com.chamc.process.entity.factory.UserFactory;
 import com.chamc.process.mapper.UserMapper;
 import com.chamc.process.utils.SnowFlake;
 import com.chamc.process.utils.interceptor.ErrorCode;
 import com.chamc.process.utils.interceptor.ProcessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,6 +31,12 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Value("${message.regist.enable:false}")
+    boolean messageEnable;
+
     /**
      * 检查用户合法性
      *
@@ -38,13 +49,30 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = {ProcessException.class, Exception.class})
-    public Boolean registUser(User user) {
+    public Boolean registUser(SignUpParam signUpParam, HttpServletRequest request) {
+
+        //手机号是否已被注册
+        if(!this.checkUser(signUpParam.getPhoneNumber()).booleanValue()){
+            throw new ProcessException(ErrorCode.HAS_BEEN_REGISTED);
+        }
+
+        if(messageEnable){
+            // 校验验证码
+            String sessionCode = (String) request.getSession().getAttribute("vcode");
+            if(!signUpParam.getVcode().equals(sessionCode)){
+                throw new ProcessException(ErrorCode.ERROR_VCODE);
+            }
+        }
+
+        User user = UserFactory.signUpUser(signUpParam);
+
+        String password = user.getPassword().trim();
+        user.setPassword(passwordEncoder.encode(password));
         return new Boolean(this.userMapper.save(user) == 1);
     }
 
     public Boolean checkUser(String username) {
-        User exitUser = this.userMapper.findByPhoneNumber(username);
-        return exitUser == null;
+        return this.userMapper.findByPhoneNumber(username).equals(0);
     }
 
     /**

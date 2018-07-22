@@ -17,11 +17,11 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public ResponseModel handleServiceExpcetion(ProcessException e){
-        ResponseModel model = new ResponseModel();
-        model.setData(null);
-        model.setCode(e.getErrorCode().getCode());
-        model.setMsg(e.getErrorCode().getMessage());
-        return model;
+        return ResponseModel
+                .builder().data(null)
+                .code(e.getErrorCode().getCode())
+                .msg(e.getErrorCode().getMessage())
+                .build();
     }
 
     //其他错误
@@ -29,11 +29,11 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseModel exception(Exception ex) {
-        ResponseModel model = new ResponseModel();
-        model.setData(null);
-        model.setCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
-        model.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
-        return model;
+        return ResponseModel
+                .builder().data(null)
+                .code(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
+                .msg(ErrorCode.INTERNAL_SERVER_ERROR.getMessage())
+                .build();
     }
 
     @Override
@@ -45,11 +45,7 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
     public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         NoWrapper annotation = methodParameter.getMethod().getAnnotation(NoWrapper.class);
         if(annotation == null){
-            ResponseModel model = new ResponseModel();
-            model.setCode(200);
-            model.setData(body);
-            model.setMsg(null);
-            return model;
+            return ResponseModel.builder().code(200).data(body).msg(null).build();
         }
         return body;
     }

@@ -1,5 +1,6 @@
 package com.chamc.process.controller;
 
+import com.chamc.process.utils.interceptor.ResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,23 +29,21 @@ public class AuthController {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    @PostMapping("auth")
+    @RequestMapping("auth")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String auth(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseModel auth(HttpServletRequest request, HttpServletResponse response) {
         SavedRequest savedRequest = Objects.requireNonNull(requestCache.getRequest(request, response), "获取SavedRequest失败");
         String targetUrl = savedRequest.getRedirectUrl();
         logger.info("targetUrl is", targetUrl);
         try {
             if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
-                // TODO
-                redirectStrategy.sendRedirect(request, response, "index.html");
+                redirectStrategy.sendRedirect(request, response, "/index.html");
             }
-            return "请登陆";
+            return ResponseModel.builder().code(HttpStatus.UNAUTHORIZED.value()).data("认证未通过，请重新登录").msg("登录失败").build();
         } catch (IOException e) {
             logger.error(e.getMessage());
             e.printStackTrace();
         }
-
         return null;
     }
 }

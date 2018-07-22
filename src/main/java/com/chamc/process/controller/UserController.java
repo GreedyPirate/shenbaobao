@@ -4,9 +4,7 @@ import com.chamc.process.controller.request.LoginParam;
 import com.chamc.process.controller.request.ModifyPwdParam;
 import com.chamc.process.controller.request.SetEmailParam;
 import com.chamc.process.controller.request.SignUpParam;
-import com.chamc.process.entity.Menu;
 import com.chamc.process.entity.User;
-import com.chamc.process.entity.factory.UserFactory;
 import com.chamc.process.mapper.bo.SysMenu;
 import com.chamc.process.service.MessageService;
 import com.chamc.process.service.PrivilegeService;
@@ -40,6 +38,7 @@ public class UserController {
     @Autowired
     PrivilegeService privilegeService;
 
+
     /**
      * 用户登录
      * @param loginParam
@@ -67,16 +66,7 @@ public class UserController {
      */
     @PutMapping("register")
     public Boolean regist(SignUpParam signUpParam){
-        //手机号是否已被注册
-        if(this.userService.checkUser(signUpParam.getPhoneNumber()).booleanValue()){
-            throw new ProcessException(ErrorCode.HAS_BEEN_REGISTED);
-        }
-        // 校验验证码
-        String sessionCode = (String) this.request.getSession().getAttribute("vcode");
-        if(!signUpParam.getVcode().equals(sessionCode)){
-            throw new ProcessException(ErrorCode.ERROR_VCODE);
-        }
-        return this.userService.registUser(UserFactory.signUpUser(signUpParam));
+        return this.userService.registUser(signUpParam,request);
     }
 
     /**
@@ -146,5 +136,10 @@ public class UserController {
      */
     public void logout(){
         request.getSession().removeAttribute("user");
+    }
+
+    @GetMapping("ok")
+    public String health(){
+        return "ok";
     }
 }
