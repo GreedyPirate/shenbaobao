@@ -46,3 +46,13 @@
     params.add(new BasicNameValuePair("uid", "2d92c6132139467b989d087c84a365d8"));
 
     httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+10.mysql 5.7修改root密码
+mysqld -nt --skip-grant-tables
+update mysql.user set authentication_string=password('0817') where user='root' and Host = 'localhost';
+flush privileges;
+
+11. You must reset your password using ALTER USER statement before executing this statement.
+    step 1: SET PASSWORD = PASSWORD('your new password');
+    step 2: ALTER USER 'root'@'localhost' PASSWORD EXPIRE NEVER;
+    step 3: flush privileges;

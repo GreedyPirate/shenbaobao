@@ -19,7 +19,8 @@ public class AuthFailureImpl implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setHeader("Content-Type","application/json;charset=UTF-8");
-        ResponseModel<Object> ok = ResponseModel.builder().code(500).msg("fail").data("error").build();
+        ResponseModel<Object> ok = ResponseModel.builder().code(401).msg("用户名或密码错误").data(null).build();
+        httpServletResponse.setStatus(401);
         httpServletResponse.getWriter().write(JSON.toJSONString(ok));
     }
 }

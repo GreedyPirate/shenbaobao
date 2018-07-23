@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //认证接口一定要排除
-                .antMatchers("/index.html","/auth","/static/**","/user/register").permitAll()
+                .antMatchers("/","/index.html","/auth","/static/**","/user/register").permitAll()
                 //其它请求都要认证
                 .anyRequest()
                 .authenticated()

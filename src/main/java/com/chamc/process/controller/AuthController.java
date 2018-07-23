@@ -31,15 +31,15 @@ public class AuthController {
 
     @RequestMapping("auth")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseModel auth(HttpServletRequest request, HttpServletResponse response) {
+    public String auth(HttpServletRequest request, HttpServletResponse response) {
         SavedRequest savedRequest = Objects.requireNonNull(requestCache.getRequest(request, response), "获取SavedRequest失败");
         String targetUrl = savedRequest.getRedirectUrl();
-        logger.info("targetUrl is", targetUrl);
+        logger.info("targetUrl is: " + targetUrl);
         try {
             if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
                 redirectStrategy.sendRedirect(request, response, "/index.html");
             }
-            return ResponseModel.builder().code(HttpStatus.UNAUTHORIZED.value()).data("认证未通过，请重新登录").msg("登录失败").build();
+            return "认证未通过，请重新登录";
         } catch (IOException e) {
             logger.error(e.getMessage());
             e.printStackTrace();

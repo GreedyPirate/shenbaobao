@@ -8,6 +8,9 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created by Jaynnay on 2018/4/16
  **/
@@ -44,8 +47,13 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         NoWrapper annotation = methodParameter.getMethod().getAnnotation(NoWrapper.class);
+        ResponseStatus status = methodParameter.getMethod().getAnnotation(ResponseStatus.class);
+        Integer code = 200;
+        if(status != null){
+            code = status.value().value();
+        }
         if(annotation == null){
-            return ResponseModel.builder().code(200).data(body).msg(null).build();
+            return ResponseModel.builder().code(code).data(body).msg(null).build();
         }
         return body;
     }
