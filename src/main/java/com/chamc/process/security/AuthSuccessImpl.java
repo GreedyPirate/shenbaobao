@@ -25,7 +25,7 @@ public class AuthSuccessImpl implements AuthenticationSuccessHandler{
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setHeader("Content-Type","application/json;charset=UTF-8");
-        ResponseModel<Object> ok = ResponseModel.builder().code(200).msg("success").data("ok").build();
+        ResponseModel<Object> ok = ResponseModel.builder().code(200).msg("success").data(authentication).build();
         httpServletResponse.getWriter().write(JSON.toJSONString(ok));
     }
 }
