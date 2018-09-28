@@ -1,5 +1,6 @@
 package com.chamc.process.utils.interceptor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,16 +12,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * Created by Jaynnay on 2018/4/16
  **/
+//@RestControllerAdvice
 @ControllerAdvice(basePackages="com.chamc.process.controller",annotations={RestController.class})
+@Slf4j
 public class ControllerAdvisor implements ResponseBodyAdvice {
     @ExceptionHandler(ProcessException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public ResponseModel handleServiceExpcetion(ProcessException e){
+        Integer code = e.getErrorCode().getCode();
+        String message = e.getErrorCode().getMessage();
+
         ResponseModel model = new ResponseModel();
         model.setData(null);
-        model.setCode(e.getErrorCode().getCode());
-        model.setMsg(e.getErrorCode().getMessage());
+        model.setCode(code);
+        model.setMsg(message);
+        log.error("ProcessException occured, code is {}, message is {}", code, message);
         return model;
     }
 
@@ -33,6 +40,8 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
         model.setData(null);
         model.setCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
         model.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
+        String classname = ex.getClass().getSimpleName();
+        log.error("{} is occured, message is {}",classname, ex.getMessage());
         return model;
     }
 
