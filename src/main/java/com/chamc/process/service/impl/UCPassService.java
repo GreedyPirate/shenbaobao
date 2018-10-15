@@ -42,7 +42,7 @@ public class UCPassService implements MessageService {
 
     private static HCB hcb;
 
-    Header[] headers = HttpHeader.custom()
+    private static Header[] headers = HttpHeader.custom()
             .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .build();
