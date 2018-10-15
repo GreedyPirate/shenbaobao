@@ -1,4 +1,4 @@
-package com.chamc.process.utils.interceptor;
+package com.chamc.process.error;
 
 public interface ExceptionEnums {
     Integer getCode();

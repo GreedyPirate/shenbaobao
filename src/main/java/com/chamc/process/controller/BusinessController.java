@@ -9,7 +9,7 @@ import com.chamc.process.controller.response.PreviewForm;
 import com.chamc.process.entity.Register;
 import com.chamc.process.mapper.bo.RegisterDetail;
 import com.chamc.process.service.RegistService;
-import com.chamc.process.utils.interceptor.NoWrapper;
+import com.chamc.process.entity.annotation.NoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;

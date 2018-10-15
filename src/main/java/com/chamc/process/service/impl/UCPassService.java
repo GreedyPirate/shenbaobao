@@ -9,8 +9,8 @@ import com.arronlong.httpclientutil.common.HttpResult;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
 import com.chamc.process.service.MessageService;
 import com.chamc.process.utils.http.HttpConnectionManager;
-import com.chamc.process.utils.interceptor.ErrorCode;
-import com.chamc.process.utils.interceptor.ProcessException;
+import com.chamc.process.error.ErrorCode;
+import com.chamc.process.error.ProcessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -28,7 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.util.Random;
 

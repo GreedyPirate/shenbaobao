@@ -1,5 +1,6 @@
-package com.chamc.process.utils.interceptor;
+package com.chamc.process.error;
 
+import com.chamc.process.error.ExceptionEnums;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

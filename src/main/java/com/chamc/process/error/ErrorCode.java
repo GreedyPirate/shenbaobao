@@ -1,6 +1,6 @@
-package com.chamc.process.utils.interceptor;
+package com.chamc.process.error;
 
-public enum ErrorCode implements ExceptionEnums{
+public enum ErrorCode implements ExceptionEnums {
     INVAILD_USER(101,"用户名或密码错误"),
     ERROR_VCODE(102, "验证码错误"),
     HAS_BEEN_REGISTED(103,"已被注册"),

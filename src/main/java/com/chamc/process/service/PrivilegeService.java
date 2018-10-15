@@ -1,11 +1,10 @@
 package com.chamc.process.service;
 
-import com.chamc.process.entity.Menu;
 import com.chamc.process.mapper.MenuMapper;
 import com.chamc.process.mapper.UserMapper;
 import com.chamc.process.mapper.bo.SysMenu;
-import com.chamc.process.utils.interceptor.ErrorCode;
-import com.chamc.process.utils.interceptor.ProcessException;
+import com.chamc.process.error.ErrorCode;
+import com.chamc.process.error.ProcessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
