@@ -151,6 +151,10 @@ public class UserController {
         request.getSession().removeAttribute("user");
     }
 
+    /**
+     * just a test
+     * @return
+     */
     @GetMapping("json")
     public JSONObject json(){
         JSONObject json = new JSONObject();

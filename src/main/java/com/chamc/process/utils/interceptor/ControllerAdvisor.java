@@ -13,10 +13,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * Created by Jaynnay on 2018/4/16
+ * extends ResponseEntityExceptionHandler或者使用ExceptionHandler处理异常，二者不可混用
+ *
  **/
 @RestControllerAdvice(basePackages="com.chamc.process.controller",annotations={RestController.class})
 @Slf4j
-public class ControllerAdvisor extends ResponseEntityExceptionHandler implements ResponseBodyAdvice {
+public class ControllerAdvisor implements ResponseBodyAdvice {
     @ExceptionHandler(ProcessException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseModel handleServiceExpcetion(ProcessException e){
