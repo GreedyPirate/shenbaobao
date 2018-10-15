@@ -12,6 +12,7 @@ public enum ErrorCode implements ExceptionEnums{
     IDS_CAN_NOT_BE_NUL(109,"请选择要删除的文件"),
     YOU_HAVE_ALREADY_REGISTED(110,"您已经提交过申请了，请不要重复提交"),
     QUERY_ROLE_FAIL(111,"查询用户角色失败"),
+    POST_MESSAGE_FAIL(112,"发送验证码失败"),
     INTERNAL_SERVER_ERROR(500, "未知的服务器错误")
     ;
 
