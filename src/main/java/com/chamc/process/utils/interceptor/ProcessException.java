@@ -10,5 +10,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProcessException extends RuntimeException{
     private static final long serialVersionUID = -1362544102815925841L;
-    private ErrorCode errorCode;
+    private ExceptionEnums errorCode;
 }

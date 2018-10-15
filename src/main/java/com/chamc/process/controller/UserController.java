@@ -1,5 +1,7 @@
 package com.chamc.process.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.chamc.process.controller.request.LoginParam;
 import com.chamc.process.controller.request.ModifyPwdParam;
 import com.chamc.process.controller.request.SetEmailParam;
@@ -13,6 +15,7 @@ import com.chamc.process.service.PrivilegeService;
 import com.chamc.process.service.UserService;
 import com.chamc.process.utils.interceptor.ErrorCode;
 import com.chamc.process.utils.interceptor.ProcessException;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -146,5 +149,19 @@ public class UserController {
      */
     public void logout(){
         request.getSession().removeAttribute("user");
+    }
+
+    @GetMapping("json")
+    public JSONObject json(){
+        JSONObject json = new JSONObject();
+        json.put("num",1);
+        JSONArray array = new JSONArray();
+        List<User> users = Lists.newArrayList();
+        User user = new User();
+        user.setUsername("jay");
+        users.add(user);
+        array.addAll(users);
+        json.put("users",array);
+        return json;
     }
 }

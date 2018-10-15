@@ -1,6 +1,6 @@
 package com.chamc.process.utils.interceptor;
 
-public enum ErrorCode {
+public enum ErrorCode implements ExceptionEnums{
     INVAILD_USER(101,"用户名或密码错误"),
     ERROR_VCODE(102, "验证码错误"),
     HAS_BEEN_REGISTED(103,"已被注册"),
@@ -25,6 +25,7 @@ public enum ErrorCode {
         this.message = message;
     }
 
+    @Override
     public Integer getCode() {
         return code;
     }
@@ -33,6 +34,7 @@ public enum ErrorCode {
         this.code = code;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
