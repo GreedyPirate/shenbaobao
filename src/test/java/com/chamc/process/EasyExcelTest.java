@@ -33,7 +33,7 @@ public class EasyExcelTest {
     @Autowired
     HttpServletResponse response;
 
-    @Test
+//    @Test
     public void testWrite() throws Exception{
         Register excelDetial = registerMapper.getExcelDetial(1L);
         OutputStream out = new FileOutputStream("G:/78.xlsx");

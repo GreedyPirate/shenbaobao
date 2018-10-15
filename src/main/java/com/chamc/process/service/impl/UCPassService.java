@@ -3,6 +3,7 @@ package com.chamc.process.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.chamc.process.service.MessageService;
 import com.chamc.process.utils.http.HttpConnectionManager;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -10,6 +11,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -24,7 +27,9 @@ import java.util.Random;
  **/
 @PropertySource(value = "classpath:config/message.properties")
 @Service
+@Slf4j
 public class UCPassService implements MessageService {
+
     @Autowired
     Environment environment;
 
@@ -49,8 +54,8 @@ public class UCPassService implements MessageService {
             httpPost = new HttpPost(url);
             // 设置连接超时,设置读取超时
             RequestConfig requestConfig = RequestConfig.custom()
-                    .setConnectTimeout(10000)
-                    .setSocketTimeout(10000)
+                    .setConnectTimeout(5000)
+                    .setSocketTimeout(5000)
                     .build();
             httpPost.setConfig(requestConfig);
 
@@ -80,7 +85,7 @@ public class UCPassService implements MessageService {
             response = httpclient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             result = EntityUtils.toString(entity);
-            System.out.println(result);
+
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -98,4 +103,5 @@ public class UCPassService implements MessageService {
         }
         return result.toString();
     }
+
 }
