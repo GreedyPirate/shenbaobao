@@ -71,7 +71,13 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+    public Object beforeBodyWrite(Object body,
+                                  MethodParameter methodParameter,
+                                  MediaType mediaType,
+                                  Class aClass,
+                                  ServerHttpRequest serverHttpRequest,
+                                  ServerHttpResponse serverHttpResponse) {
+
         NoWrapper annotation = methodParameter.getMethod().getAnnotation(NoWrapper.class);
         if (annotation == null) {
             ResponseModel model = new ResponseModel();
