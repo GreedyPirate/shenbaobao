@@ -28,7 +28,7 @@ import java.util.List;
  * Created by Jaynnay on 2018/2/4
  **/
 @RestController
-@RequestMapping("regist")
+@RequestMapping("regist" )
 public class FormController {
 
     @Autowired
@@ -45,68 +45,74 @@ public class FormController {
 
     /**
      * 获取档案数据
+     *
      * @return
      */
-    @GetMapping("archives")
-    public List<ArchiveType> getArchives(){
+    @GetMapping("archives" )
+    public List<ArchiveType> getArchives() {
         return this.archiveService.getArchives();
     }
 
     /**
      * 提交申请
+     *
      * @param register
      * @return
      */
-    @PostMapping("form")
-    public Boolean regist(Register register){
+    @PostMapping("form" )
+    public Boolean regist(Register register) {
         return this.registService.regist(register);
     }
 
     /**
      * 获取用户已存在的申请
+     *
      * @param userId
      * @return
      */
-    @GetMapping("editer")
-    public Register getUserRegister(Long userId){
+    @GetMapping("editer" )
+    public Register getUserRegister(Long userId) {
         return this.registService.getByUserId(userId);
     }
 
     /**
      * 获取附件列表
+     *
      * @return
      */
-    @GetMapping("attachments")
+    @GetMapping("attachments" )
     public List<Attachment> getAttachments(Long uid) {
         return this.fileService.getAllAttachs(uid);
     }
 
     /**
      * 上传附件
+     *
      * @param file
      * @return
      */
-    @PostMapping("upload")
+    @PostMapping("upload" )
     public List<Attachment> upload(MultipartFile file) {
         return this.fileService.upload(file);
     }
 
     /**
      * 下载附件
+     *
      * @param id
      * @return
      */
-    @GetMapping("download")
+    @GetMapping("download" )
     @NoWrapper
-    public ResponseEntity<byte[]> download(Long id){
+    public ResponseEntity<byte[]> download(Long id) {
         try {
             Attachment attachment = this.fileService.getById(id);
             byte[] bytes = new byte[0];
             bytes = FileCopyUtils.copyToByteArray(new File(attachment.getUrl()));
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment",attachment.getName());
-            return new ResponseEntity<byte[]>(bytes,headers, HttpStatus.OK);
+            headers.setContentDispositionFormData("attachment", attachment.getName());
+            return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -114,19 +120,20 @@ public class FormController {
 
     /**
      * 文件下载第二版
+     *
      * @param response
      * @param id
      */
-    @GetMapping("download/v2")
+    @GetMapping("download/v2" )
     @NoWrapper
-    public void downloadV2(HttpServletResponse response, Long id){
+    public void downloadV2(HttpServletResponse response, Long id) {
         Attachment attachment = this.fileService.getById(id);
-        try(InputStream is = new FileInputStream(attachment.getUrl());
-            OutputStream os = response.getOutputStream()) {
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("application/octet-stream");
+        try (InputStream is = new FileInputStream(attachment.getUrl());
+             OutputStream os = response.getOutputStream()) {
+            response.setCharacterEncoding("utf-8" );
+            response.setContentType("application/octet-stream" );
             response.setHeader("Content-Disposition", "attachment;fileName=" + attachment.getName());
-            IOUtils.copy(is,os);
+            IOUtils.copy(is, os);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,12 +141,13 @@ public class FormController {
 
     /**
      * 删除附件
+     *
      * @param ids
      * @return
      */
-    @PostMapping("delete")
-    public Boolean delete(Long[] ids){
-        if(ids == null || ids.length == 0){
+    @PostMapping("delete" )
+    public Boolean delete(Long[] ids) {
+        if (ids == null || ids.length == 0) {
             throw new ProcessException(ErrorCode.IDS_CAN_NOT_BE_NUL);
         }
         return this.fileService.deleteById(ids);

@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 
 public class HttpContextUtils {
 
-	public static HttpServletRequest getRequest() {
+    public static HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-	}
+    }
 
-	public static HttpSession getSession(){
-		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
-	}
+    public static HttpSession getSession() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+    }
 }

@@ -19,11 +19,11 @@ public interface FileService {
 
     public Boolean deleteById(Long[] ids);
 
-    default String makeDir() throws IOException{
-        String date = DateUtils.format(new Date(),"yyyyMMdd");
-        String root = System.getProperty("user.dir");
-        File dir = new File(root,date);
-        if(!dir.exists()){
+    default String makeDir() throws IOException {
+        String date = DateUtils.format(new Date(), "yyyyMMdd" );
+        String root = System.getProperty("user.dir" );
+        File dir = new File(root, date);
+        if (!dir.exists()) {
             dir.mkdir();
         }
         return dir.getCanonicalPath().toString();

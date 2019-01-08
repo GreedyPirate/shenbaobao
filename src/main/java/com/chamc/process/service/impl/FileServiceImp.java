@@ -42,7 +42,7 @@ public class FileServiceImp implements FileService {
     @Transactional
     public List<Attachment> upload(MultipartFile file) {
         try {
-            User user = (User) request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user" );
             Attachment upload = new Attachment();
             SnowFlake snowFlake = new SnowFlake(2, 3);
             upload.setSize(file.getSize());

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * Created by Jaynnay on 2018/5/29
  **/
 @Data
-public class RegisterDetail extends Location implements Serializable{
+public class RegisterDetail extends Location implements Serializable {
     private static final long serialVersionUID = -1990218317724436649L;
     private Long id;
     private String regType;

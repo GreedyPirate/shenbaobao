@@ -22,32 +22,32 @@ public class PrivilegeService {
     @Autowired
     UserMapper userMapper;
 
-    public List<SysMenu> getUserMenu(Long uid){
+    public List<SysMenu> getUserMenu(Long uid) {
         Integer roleId = userMapper.getRoleId(uid);
-        if(roleId == null){
+        if (roleId == null) {
             throw new ProcessException(ErrorCode.QUERY_ROLE_FAIL);
         }
         List<SysMenu> menus = this.menuMapper.getMenus(roleId);
         return this.fastSetSubMenus(menus);
     }
 
-    private List<SysMenu> fastSetSubMenus(List<SysMenu> menus){
+    private List<SysMenu> fastSetSubMenus(List<SysMenu> menus) {
         List<SysMenu> parentMenu = new ArrayList<>();
         List<SysMenu> subMenu = new ArrayList<>();
         List<SysMenu> ret = new ArrayList<>(menus.size());
-        Map<Integer,SysMenu> allMenu = new HashMap<>();
-        menus.forEach((item)->{
-            if(item.getParentId().equals(0)){
+        Map<Integer, SysMenu> allMenu = new HashMap<>();
+        menus.forEach((item) -> {
+            if (item.getParentId().equals(0)) {
                 parentMenu.add(item);
-                allMenu.put(item.getId(),item);
-            }else {
+                allMenu.put(item.getId(), item);
+            } else {
                 subMenu.add(item);
             }
         });
-        subMenu.forEach((item)->{
+        subMenu.forEach((item) -> {
             allMenu.get(item.getParentId()).getSubs().add(item);
         });
-        allMenu.forEach((id,menu)->{
+        allMenu.forEach((id, menu) -> {
             ret.add(menu);
         });
         return ret;
@@ -56,17 +56,18 @@ public class PrivilegeService {
 
     /**
      * 菜单的递归查询，时间复杂度O(n^2)
+     *
      * @param menus
      * @return
      */
     private List<SysMenu> setSubMenus(List<SysMenu> menus) {
         List<SysMenu> result = null;
-        if(!CollectionUtils.isEmpty(menus)) {
+        if (!CollectionUtils.isEmpty(menus)) {
             result = new ArrayList<>(menus.size());
             Iterator<SysMenu> iterator = menus.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 SysMenu next = iterator.next();
-                if(next.getParentId().equals(0)){
+                if (next.getParentId().equals(0)) {
                     result.add(findSubs(next, menus));
                 }
             }
@@ -76,7 +77,7 @@ public class PrivilegeService {
 
     private SysMenu findSubs(SysMenu menu, List<SysMenu> menus) {
         menus.forEach((item) -> {
-            if(item.getParentId().equals(menu.getId())){
+            if (item.getParentId().equals(menu.getId())) {
                 // add (findSubs...) 递归查询
                 menu.getSubs().add(item);
             }

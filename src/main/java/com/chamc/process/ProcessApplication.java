@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
-@MapperScan("com.chamc.process.mapper")
-public class ProcessApplication{
+@MapperScan("com.chamc.process.mapper" )
+public class ProcessApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProcessApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProcessApplication.class, args);
+    }
 }

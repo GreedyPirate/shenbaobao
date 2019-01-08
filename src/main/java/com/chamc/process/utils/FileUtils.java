@@ -27,23 +27,23 @@ public class FileUtils {
         ByteArrayOutputStream bos = null;
         try {
             bos = new ByteArrayOutputStream();
-            byte[] b = new byte[4*1024];
+            byte[] b = new byte[4 * 1024];
             int len = -1;
-            while((len = fis.read(b)) != -1) {
+            while ((len = fis.read(b)) != -1) {
                 bos.write(b, 0, len);
             }
             return bos.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
-            if(fis != null){
+        } finally {
+            if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if(bos != null){
+            if (bos != null) {
                 try {
                     bos.close();
                 } catch (IOException e) {

@@ -34,7 +34,7 @@ import java.util.Random;
 /**
  * Created by Jaynnay on 2018/1/20
  **/
-@PropertySource(value = "classpath:config/message.properties")
+@PropertySource(value = "classpath:config/message.properties" )
 @Service
 @Slf4j
 public class UCPassService implements MessageService {
@@ -65,19 +65,19 @@ public class UCPassService implements MessageService {
     }
 
 
-    @Value("${ucpass.url}")
+    @Value("${ucpass.url}" )
     private String url;
 
-    @Value("${ucpass.accountSid}")
+    @Value("${ucpass.accountSid}" )
     private String accountSid;
 
-    @Value("${ucpass.token}")
+    @Value("${ucpass.token}" )
     private String token;
 
-    @Value("${ucpass.appid}")
+    @Value("${ucpass.appid}" )
     private String appid;
 
-    @Value("${ucpass.templateId}")
+    @Value("${ucpass.templateId}" )
     private String templateId;
 
     @Autowired
@@ -102,7 +102,7 @@ public class UCPassService implements MessageService {
         params.put("templateid", templateId);
         params.put("param", code);
         params.put("mobile", phoneNumber);
-        params.put("uid", "2d92c6132139467b989d087c84a365d8");
+        params.put("uid", "2d92c6132139467b989d087c84a365d8" );
         String body = params.toJSONString();
 
         HttpConfig client = HttpConfig.custom()
@@ -114,7 +114,7 @@ public class UCPassService implements MessageService {
         try {
             HttpResult httpResult = HttpClientUtil.sendAndGetResp(client);
             int statusCode = httpResult.getStatusCode();
-            if(statusCode != HttpStatus.SC_OK){
+            if (statusCode != HttpStatus.SC_OK) {
                 throw new ProcessException(ErrorCode.POST_MESSAGE_FAIL);
             }
             return HttpClientUtil.post(client);
@@ -130,17 +130,18 @@ public class UCPassService implements MessageService {
         Random rand = new Random();
 
         for (int j = 0; j < 6; j++) {
-            result.append(sources.charAt(rand.nextInt(9)) + "");
+            result.append(sources.charAt(rand.nextInt(9)) + "" );
         }
         return result.toString();
     }
 
     /**
      * 原始httpclient方式
+     *
      * @param phoneNumber
      * @return
      */
-    public String ordinary(String phoneNumber){
+    public String ordinary(String phoneNumber) {
         HttpPost httpPost = null;
         CloseableHttpResponse response = null;
         String result = "";
@@ -162,13 +163,13 @@ public class UCPassService implements MessageService {
             params.put("templateid", templateId);
             params.put("param", param);
             params.put("mobile", phoneNumber);
-            params.put("uid", "2d92c6132139467b989d087c84a365d8");
+            params.put("uid", "2d92c6132139467b989d087c84a365d8" );
             String body = params.toJSONString();
 
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-Type", "application/json;charset=utf-8");
+            httpPost.setHeader("Accept", "application/json" );
+            httpPost.setHeader("Content-Type", "application/json;charset=utf-8" );
 
-            StringEntity se = new StringEntity(body, "UTF-8");
+            StringEntity se = new StringEntity(body, "UTF-8" );
             httpPost.setEntity(se);
 
 
@@ -178,7 +179,7 @@ public class UCPassService implements MessageService {
         } catch (IOException e) {
             log.error(e.getMessage());
         } finally {
-            if(response != null){
+            if (response != null) {
                 try {
                     response.close();
                 } catch (IOException e) {

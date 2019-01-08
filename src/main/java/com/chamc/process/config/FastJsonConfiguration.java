@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FastJsonConfiguration {
     @Bean
-    public HttpMessageConverters fastJsonConvert(){
+    public HttpMessageConverters fastJsonConvert() {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         FastJsonConfig config = new FastJsonConfig();
         config.setSerializerFeatures(SerializerFeature.WriteMapNullValue);

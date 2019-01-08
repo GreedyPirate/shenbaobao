@@ -11,10 +11,10 @@ import java.util.List;
  **/
 public class JSONTest {
     @Test
-    public void testFastJson(){
+    public void testFastJson() {
         List<ResultBean> result = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ResultBean bean = new ResultBean("v"+i, "l"+i, null);
+            ResultBean bean = new ResultBean("v" + i, "l" + i, null);
             result.add(bean);
         }
         String json = JSON.toJSONString(result);

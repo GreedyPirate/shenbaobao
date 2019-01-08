@@ -17,22 +17,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /*@Configuration*/
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    @Value("${server.port}")
+    @Value("${server.port}" )
     private int serverPort;
 
-    @Value("${server.http.port}")
+    @Value("${server.http.port}" )
     private int serverHttpPort;
 
     /**
      * 解决跨域问题
+     *
      * @param registry
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "OPTIONS", "PUT")
+        registry.addMapping("/**" ).allowedOrigins("*" ).allowedMethods("GET", "POST", "OPTIONS", "PUT" )
                 .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-                        "Access-Control-Request-Headers","accessToken")
-                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+                        "Access-Control-Request-Headers", "accessToken" )
+                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials" )
                 .allowCredentials(true).maxAge(3600);
     }
 
@@ -42,9 +43,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             @Override
             protected void postProcessContext(Context context) {
                 SecurityConstraint securityConstraint = new SecurityConstraint();
-                securityConstraint.setUserConstraint("CONFIDENTIAL");
+                securityConstraint.setUserConstraint("CONFIDENTIAL" );
                 SecurityCollection collection = new SecurityCollection();
-                collection.addPattern("/*");
+                collection.addPattern("/*" );
                 securityConstraint.addCollection(collection);
                 context.addConstraint(securityConstraint);
             }
@@ -55,8 +56,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     private Connector initiateHttpConnector() {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        connector.setScheme("http");
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol" );
+        connector.setScheme("http" );
         //需要重定向的http端口
         connector.setPort(serverHttpPort);
         connector.setSecure(false);

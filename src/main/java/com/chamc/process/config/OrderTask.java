@@ -7,8 +7,8 @@ import org.springframework.scheduling.annotation.Scheduled;
  **/
 /*@Component*/
 public class OrderTask {
-    @Scheduled(cron="0 */1 * * * ?")
-    public void orderFile(){
-        System.out.println("spring boot quartz test ...");
+    @Scheduled(cron = "0 */1 * * * ?" )
+    public void orderFile() {
+        System.out.println("spring boot quartz test ..." );
     }
 }

@@ -4,14 +4,14 @@
 <mapper namespace="com.chamc.process.mapper.RegisterMapper">
 
     <sql id="columns">
-    id, reg_type, enterprise_zh, enterprise_en,
-    regist_zh, regist_en, regist_code, work_code,
-    work_place_zh, work_place_en, area_name, area_code,
-    license_code, enterprise_type, currency, capital,
-    economic_type, leader, leader_tele, contact,
-    contact_tele,contact_email, email_receive, website,
-    product_info, invoice_title,tax_number, tax_addr,
-    open_bank, create_time, update_time, uid, status
+        id, reg_type, enterprise_zh, enterprise_en,
+        regist_zh, regist_en, regist_code, work_code,
+        work_place_zh, work_place_en, area_name, area_code,
+        license_code, enterprise_type, currency, capital,
+        economic_type, leader, leader_tele, contact,
+        contact_tele,contact_email, email_receive, website,
+        product_info, invoice_title,tax_number, tax_addr,
+        open_bank, create_time, update_time, uid, status
     </sql>
 
     <resultMap id="columnMap" type="Register">
@@ -182,15 +182,15 @@
 
     <select id="queryDetail" resultMap="detailMap" parameterType="Long">
         SELECT
-          a.id,  a.enterprise_zh, a.enterprise_en,
-          a.regist_zh, a.regist_en, a.regist_code, a.work_code,
-          a.work_place_zh, a.work_place_en, a.area_name, a.area_code,
-          a.license_code, a.currency,a.area_name,
-          a.leader, a.leader_tele, a.contact,a.capital,
-          a.contact_tele,a.contact_email, a.website,
-          a.product_info, a.invoice_title,a.tax_number, a.tax_addr,
-          open_bank, b1.name AS reg_name, b3.name AS enterprise_name,
-          b4.name AS currency_name, b5.name AS economic_name
+        a.id, a.enterprise_zh, a.enterprise_en,
+        a.regist_zh, a.regist_en, a.regist_code, a.work_code,
+        a.work_place_zh, a.work_place_en, a.area_name, a.area_code,
+        a.license_code, a.currency,a.area_name,
+        a.leader, a.leader_tele, a.contact,a.capital,
+        a.contact_tele,a.contact_email, a.website,
+        a.product_info, a.invoice_title,a.tax_number, a.tax_addr,
+        open_bank, b1.name AS reg_name, b3.name AS enterprise_name,
+        b4.name AS currency_name, b5.name AS economic_name
         FROM s_register a
         LEFT JOIN s_archive_detail b1 ON a.reg_type = b1.id
         LEFT JOIN s_archive_detail b3 ON a.enterprise_type = b3.id

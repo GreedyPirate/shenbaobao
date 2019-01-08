@@ -15,24 +15,24 @@ public class AdminareaHandler extends BaseTypeHandler<String[]> {
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, String[] parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i,String.join(",",parameter));
+        ps.setString(i, String.join(",", parameter));
     }
 
     @Override
     public String[] getNullableResult(ResultSet rs, String columnName) throws SQLException {
         String areas = rs.getString(columnName);
-        return areas.split(",");
+        return areas.split("," );
     }
 
     @Override
     public String[] getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         String areas = rs.getString(columnIndex);
-        return areas.split(",");
+        return areas.split("," );
     }
 
     @Override
     public String[] getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         String areas = cs.getString(columnIndex);
-        return areas.split(",");
+        return areas.split("," );
     }
 }

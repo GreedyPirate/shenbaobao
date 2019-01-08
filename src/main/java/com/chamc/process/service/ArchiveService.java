@@ -16,7 +16,7 @@ public class ArchiveService {
     @Autowired
     ArchiveTypeMapper archiveTypeMapper;
 
-    public List<ArchiveType> getArchives(){
+    public List<ArchiveType> getArchives() {
         return this.archiveTypeMapper.getArchives();
     }
 }

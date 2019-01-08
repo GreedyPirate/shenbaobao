@@ -21,14 +21,15 @@ public class HttpConnectionManager {
     private static HttpConnectionManager httpConnectionManager;
     private PoolingHttpClientConnectionManager phcm;
 
-    private HttpConnectionManager(){
+    private HttpConnectionManager() {
 
     }
+
     // 单例模式的双重检查机制
-    public static HttpConnectionManager getInstance(){
-        if(httpConnectionManager == null){
-            synchronized (HttpConnectionManager.class){
-                if (httpConnectionManager == null){
+    public static HttpConnectionManager getInstance() {
+        if (httpConnectionManager == null) {
+            synchronized (HttpConnectionManager.class) {
+                if (httpConnectionManager == null) {
                     httpConnectionManager = new HttpConnectionManager();
                 }
             }
@@ -39,7 +40,7 @@ public class HttpConnectionManager {
     /**
      * 对https的支持
      */
-    private void init(){
+    private void init() {
         LayeredConnectionSocketFactory sslsf = null;
         try {
             sslsf = new SSLConnectionSocketFactory(SSLContext.getDefault());
@@ -47,7 +48,7 @@ public class HttpConnectionManager {
             e.printStackTrace();
         }
 
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("https", sslsf).register("http", new PlainConnectionSocketFactory()).build();
         phcm = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         phcm.setMaxTotal(200);
@@ -56,9 +57,10 @@ public class HttpConnectionManager {
 
     /**
      * 暴露一个基于连接池的CloseableHttpClient
+     *
      * @return
      */
-    public CloseableHttpClient getHttpClient(){
+    public CloseableHttpClient getHttpClient() {
         return HttpClients.custom().setConnectionManager(phcm).build();
     }
 

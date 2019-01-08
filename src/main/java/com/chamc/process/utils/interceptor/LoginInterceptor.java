@@ -8,18 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
  * Created by Jaynnay on 2018/5/19
  **/
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
         String url = httpServletRequest.getRequestURI();
-        if(url.contains("login")){
+        if (url.contains("login" )) {
             return true;
         }
-        User user = (User) httpServletRequest.getSession().getAttribute("user");
-        if(user == null){
+        User user = (User) httpServletRequest.getSession().getAttribute("user" );
+        if (user == null) {
             return false;
         }
         return true;

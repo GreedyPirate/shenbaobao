@@ -8,9 +8,9 @@ import org.springframework.util.StringUtils;
  **/
 public class JoinTest {
     @Test
-    public void testJoin(){
+    public void testJoin() {
         String str = "hi,ni,hao";
-        String[] strings = StringUtils.delimitedListToStringArray(str, ",");
+        String[] strings = StringUtils.delimitedListToStringArray(str, "," );
         for (int i = 0; i < strings.length; i++) {
             System.out.println(strings[i]);
         }

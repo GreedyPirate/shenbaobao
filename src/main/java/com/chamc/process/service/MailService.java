@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
 @Service
 public class MailService {
     private Logger logger = LoggerFactory.getLogger(MailService.class);
-    @Value("${spring.mail.from:993203876@qq.com}")
+    @Value("${spring.mail.from:993203876@qq.com}" )
     String from;
 
 

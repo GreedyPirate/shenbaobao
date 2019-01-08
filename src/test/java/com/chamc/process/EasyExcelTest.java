@@ -33,13 +33,13 @@ public class EasyExcelTest {
     @Autowired
     HttpServletResponse response;
 
-//    @Test
-    public void testWrite() throws Exception{
+    //    @Test
+    public void testWrite() throws Exception {
         Register excelDetial = registerMapper.getExcelDetial(1L);
-        OutputStream out = new FileOutputStream("G:/78.xlsx");
+        OutputStream out = new FileOutputStream("G:/78.xlsx" );
         ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX);
         //写第一个sheet, sheet1  数据全是List<String> 无模型映射关系
-        Sheet sheet1 = new Sheet(1, 0,Register.class);
+        Sheet sheet1 = new Sheet(1, 0, Register.class);
         List data = new ArrayList<>(1);
         data.add(excelDetial);
         writer.write(data, sheet1);
@@ -47,7 +47,7 @@ public class EasyExcelTest {
     }
 
     @Test
-    public void testPdf() throws Exception{
-        registService.buildPDF(response,1L);
+    public void testPdf() throws Exception {
+        registService.buildPDF(response, 1L);
     }
 }

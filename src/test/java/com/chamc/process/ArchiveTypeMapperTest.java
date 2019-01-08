@@ -20,9 +20,9 @@ public class ArchiveTypeMapperTest {
     ArchiveTypeMapper archiveTypeMapper;
 
     @Test
-    public void testArchive(){
+    public void testArchive() {
         List<ArchiveType> archives = this.archiveTypeMapper.getArchives();
-        for (ArchiveType archiveType : archives){
+        for (ArchiveType archiveType : archives) {
             System.out.println(archiveType);
         }
     }

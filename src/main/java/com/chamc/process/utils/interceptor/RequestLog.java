@@ -23,13 +23,14 @@ public class RequestLog {
 
     ThreadLocal<StopWatch> watchThreadLocal = new ThreadLocal<>();
 
-    @Pointcut("(execution(* *..controller..*.*(..))) && (@within(org.springframework.web.bind.annotation.RestController))")
-    public void express(){}
+    @Pointcut("(execution(* *..controller..*.*(..))) && (@within(org.springframework.web.bind.annotation.RestController))" )
+    public void express() {
+    }
 
-    @Before("express()")
-    public void pre(JoinPoint joinPoint){
+    @Before("express()" )
+    public void pre(JoinPoint joinPoint) {
         StopWatch watch = new StopWatch(UUID.randomUUID().toString());
-        watch.start("request log");
+        watch.start("request log" );
         watchThreadLocal.set(watch);
 
 
@@ -38,14 +39,14 @@ public class RequestLog {
         String method = request.getMethod();
 
         String remoteAddr = request.getRemoteAddr();
-        log.info("Request begin: from {} url is {}, method is {}, params are {}",remoteAddr, url, method, Arrays.toString(joinPoint.getArgs()));
+        log.info("Request begin: from {} url is {}, method is {}, params are {}", remoteAddr, url, method, Arrays.toString(joinPoint.getArgs()));
     }
 
-    @AfterReturning(value = "express()", returning = "returnValue")
-    public void post(JoinPoint joinPoint,Object returnValue){
+    @AfterReturning(value = "express()", returning = "returnValue" )
+    public void post(JoinPoint joinPoint, Object returnValue) {
         StopWatch stopWatch = watchThreadLocal.get();
         stopWatch.stop();
-        log.info("request timing is \n{}",stopWatch.prettyPrint());
+        log.info("request timing is \n{}", stopWatch.prettyPrint());
 
         log.info("Response is {}", JSONObject.toJSONString(returnValue));
     }

@@ -97,7 +97,7 @@ public class UserService {
      * 电话号码脱敏
      */
     private String desensitization(String number) {
-        return number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        return number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2" );
     }
 
     @Transactional
@@ -124,7 +124,7 @@ public class UserService {
             String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
             SnowFlake snowFlake = new SnowFlake(10, 2);
             StringBuilder builder = new StringBuilder();
-            builder.append(snowFlake.nextId()).append(".").append(ext);
+            builder.append(snowFlake.nextId()).append("." ).append(ext);
             Path path = Paths.get(floder, builder.toString());
             Files.write(path, bytes);
             return path.toString();
@@ -136,9 +136,9 @@ public class UserService {
 
     private String createFloder() {
         try {
-            String root = System.getProperty("user.dir");
+            String root = System.getProperty("user.dir" );
             root += "/img";
-            File img = new File(root, "avatar");
+            File img = new File(root, "avatar" );
             if (!img.exists()) {
                 img.mkdirs();
             }
@@ -150,7 +150,7 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean updatePhone(Long id, String phone){
+    public Boolean updatePhone(Long id, String phone) {
         Integer result = this.userMapper.updatePhone(id, phone);
         return new Boolean(result == 1);
     }

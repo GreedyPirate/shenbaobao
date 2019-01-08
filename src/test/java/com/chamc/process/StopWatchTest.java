@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class StopWatchTest {
 
     @Test
-    public void testUUID(){
+    public void testUUID() {
         String s = UUID.randomUUID().toString();
         System.out.println(s);
     }
@@ -17,7 +17,7 @@ public class StopWatchTest {
     @Test
     public void testStopwatch() throws InterruptedException {
         StopWatch stopWatch = new StopWatch(UUID.randomUUID().toString());
-        stopWatch.start("request log");
+        stopWatch.start("request log" );
         TimeUnit.SECONDS.sleep(5L);
         stopWatch.stop();
         String s = stopWatch.prettyPrint();

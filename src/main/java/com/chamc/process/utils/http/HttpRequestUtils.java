@@ -71,33 +71,37 @@ public class HttpRequestUtils {
 
     /**
      * 发送 GET 请求（HTTP），不带输入数据
+     *
      * @param url
      * @return
      */
     public static String doGet(String url) {
-        return doGet(url, new HashMap<String, Object>(),new HashMap<String, String>());
+        return doGet(url, new HashMap<String, Object>(), new HashMap<String, String>());
     }
 
     /**
      * 发送 GET 请求（HTTP），不带输入数据
+     *
      * @param url
      * @return
      */
-    public static String doGetWithHeaders(String url,Map<String, String> headers) {
-        return doGet(url, new HashMap<String, Object>(),headers);
+    public static String doGetWithHeaders(String url, Map<String, String> headers) {
+        return doGet(url, new HashMap<String, Object>(), headers);
     }
 
     /**
      * 发送 GET 请求（HTTP），不带输入数据
+     *
      * @param url
      * @return
      */
-    public static String doGetByParams(String url,Map<String, Object> params) {
-        return doGet(url, params,new HashMap<String, String>());
+    public static String doGetByParams(String url, Map<String, Object> params) {
+        return doGet(url, params, new HashMap<String, String>());
     }
 
     /**
      * 发送 GET 请求（HTTP），K-V形式
+     *
      * @param url
      * @param params
      * @return
@@ -108,11 +112,11 @@ public class HttpRequestUtils {
         int i = 0;
         for (String key : params.keySet()) {
             if (i == 0) {
-                param.append("?");
+                param.append("?" );
             } else {
-                param.append("&");
+                param.append("&" );
             }
-            param.append(key).append("=").append(params.get(key));
+            param.append(key).append("=" ).append(params.get(key));
             i++;
         }
         apiUrl += param;
@@ -121,7 +125,7 @@ public class HttpRequestUtils {
         StopWatch watch = new StopWatch();
         watch.start();
 
-        try(CloseableHttpClient httpclient = HttpClients.createDefault()) {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
             HttpGet httpPost = new HttpGet(apiUrl);
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -135,19 +139,19 @@ public class HttpRequestUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 InputStream instream = entity.getContent();
-                result = IOUtils.toString(instream, "UTF-8");
+                result = IOUtils.toString(instream, "UTF-8" );
             }
             watch.stop();
             HttpApiLogger.afterInvoke(url, result, watch.getTime());
-        }
-        catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
         }
         return result;
     }
 
     /**
      * 发送 POST 请求（HTTP），不带输入数据
+     *
      * @param apiUrl
      * @return
      */
@@ -157,6 +161,7 @@ public class HttpRequestUtils {
 
     /**
      * 发送 POST 请求（HTTP），K-V形式
+     *
      * @param apiUrl API接口URL
      * @param params 参数map
      * @return
@@ -180,31 +185,28 @@ public class HttpRequestUtils {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 httpPost.addHeader(entry.getKey(), entry.getValue());
             }
-            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("UTF-8")));
+            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("UTF-8" )));
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            httpStr = EntityUtils.toString(entity, "UTF-8");
+            httpStr = EntityUtils.toString(entity, "UTF-8" );
             watch.stop();
             HttpApiLogger.afterInvoke(apiUrl, httpStr, watch.getTime());
-        }
-        catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
             try {
-                if (httpClient != null){
+                if (httpClient != null) {
                     httpClient.close();
                 }
             } catch (IOException e) {
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return httpStr;
@@ -212,6 +214,7 @@ public class HttpRequestUtils {
 
     /**
      * 发送 POST 请求（HTTP），K-V形式
+     *
      * @param apiUrl API接口URL
      * @param params 参数map
      * @return
@@ -222,8 +225,9 @@ public class HttpRequestUtils {
 
     /**
      * 发送 POST 请求（HTTP），JSON形式
+     *
      * @param apiUrl
-     * @param json json对象
+     * @param json   json对象
      * @return
      */
     public static String doPost(String apiUrl, JSONObject json, Map<String, String> headers) {
@@ -240,34 +244,31 @@ public class HttpRequestUtils {
                 httpPost.addHeader(entry.getKey(), entry.getValue());
             }
             httpPost.setConfig(requestConfig);
-            StringEntity stringEntity = new StringEntity(json.toJSONString(), "UTF-8");// 解决中文乱码问题
-            stringEntity.setContentEncoding("UTF-8");
-            stringEntity.setContentType("application/json");
+            StringEntity stringEntity = new StringEntity(json.toJSONString(), "UTF-8" );// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8" );
+            stringEntity.setContentType("application/json" );
             httpPost.setEntity(stringEntity);
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            httpStr = EntityUtils.toString(entity, "UTF-8");
+            httpStr = EntityUtils.toString(entity, "UTF-8" );
             watch.stop();
             HttpApiLogger.afterInvoke(apiUrl, httpStr, watch.getTime());
-        }
-        catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
             try {
-                if (httpClient != null){
+                if (httpClient != null) {
                     httpClient.close();
                 }
             } catch (IOException e) {
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return httpStr;
@@ -275,8 +276,9 @@ public class HttpRequestUtils {
 
     /**
      * 发送 POST 请求（HTTP），JSON形式
+     *
      * @param apiUrl
-     * @param json json对象
+     * @param json   json对象
      * @return
      */
     public static String doPostSSL(String apiUrl, JSONObject json, Map<String, String> headers) {
@@ -296,27 +298,24 @@ public class HttpRequestUtils {
                 httpPost.addHeader(entry.getKey(), entry.getValue());
             }
             httpPost.setConfig(requestConfig);
-            StringEntity stringEntity = new StringEntity(json.toJSONString(), "UTF-8");// 解决中文乱码问题
-            stringEntity.setContentEncoding("UTF-8");
-            stringEntity.setContentType("application/json");
+            StringEntity stringEntity = new StringEntity(json.toJSONString(), "UTF-8" );// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8" );
+            stringEntity.setContentType("application/json" );
             httpPost.setEntity(stringEntity);
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            httpStr = EntityUtils.toString(entity, "UTF-8");
+            httpStr = EntityUtils.toString(entity, "UTF-8" );
             watch.stop();
             HttpApiLogger.afterInvoke(apiUrl, httpStr, watch.getTime());
-        }
-        catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
                     response.close();
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
         }
@@ -325,8 +324,9 @@ public class HttpRequestUtils {
 
     /**
      * 发送 POST 请求（HTTP），JSON形式
+     *
      * @param apiUrl
-     * @param json json对象
+     * @param json   json对象
      * @return
      */
     public static String doPost(String apiUrl, Object json, Map<String, String> headers) {
@@ -341,38 +341,37 @@ public class HttpRequestUtils {
                 httpPost.addHeader(entry.getKey(), entry.getValue());
             }
             httpPost.setConfig(requestConfig);
-            StringEntity stringEntity = new StringEntity(JSON.toJSONString(json), "UTF-8");// 解决中文乱码问题
-            stringEntity.setContentEncoding("UTF-8");
-            stringEntity.setContentType("application/json");
+            StringEntity stringEntity = new StringEntity(JSON.toJSONString(json), "UTF-8" );// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8" );
+            stringEntity.setContentType("application/json" );
             httpPost.setEntity(stringEntity);
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            httpStr = EntityUtils.toString(entity, "UTF-8");
-        }
-        catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+            httpStr = EntityUtils.toString(entity, "UTF-8" );
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
             try {
-                if (httpClient != null){
+                if (httpClient != null) {
                     httpClient.close();
                 }
             } catch (IOException e) {
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return httpStr;
     }
+
     /**
      * 发送 POST 请求（HTTP），JSON形式
+     *
      * @param apiUrl
      * @param jsonStr json对象
      * @return
@@ -392,34 +391,31 @@ public class HttpRequestUtils {
             StopWatch watch = new StopWatch();
             watch.start();
             httpPost.setConfig(requestConfig);
-            StringEntity stringEntity = new StringEntity(jsonStr, "UTF-8");// 解决中文乱码问题
-            stringEntity.setContentEncoding("UTF-8");
-            stringEntity.setContentType("application/json");
+            StringEntity stringEntity = new StringEntity(jsonStr, "UTF-8" );// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8" );
+            stringEntity.setContentType("application/json" );
             httpPost.setEntity(stringEntity);
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            httpStr = EntityUtils.toString(entity, "UTF-8");
+            httpStr = EntityUtils.toString(entity, "UTF-8" );
             watch.stop();
             HttpApiLogger.afterInvoke(apiUrl, httpStr, watch.getTime());
-        }
-        catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
             try {
-                if (httpClient != null){
+                if (httpClient != null) {
                     httpClient.close();
                 }
             } catch (IOException e) {
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return httpStr;
@@ -427,6 +423,7 @@ public class HttpRequestUtils {
 
     /**
      * 发送 SSL POST 请求（HTTPS），K-V形式
+     *
      * @param apiUrl API接口URL
      * @param params 参数map
      * @return
@@ -445,7 +442,7 @@ public class HttpRequestUtils {
                 NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
                 pairList.add(pair);
             }
-            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("utf-8")));
+            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("utf-8" )));
             response = httpClient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
@@ -455,18 +452,15 @@ public class HttpRequestUtils {
             if (entity == null) {
                 return null;
             }
-            httpStr = EntityUtils.toString(entity, "utf-8");
-        }
-        catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+            httpStr = EntityUtils.toString(entity, "utf-8" );
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
         }
@@ -475,8 +469,9 @@ public class HttpRequestUtils {
 
     /**
      * 发送 SSL POST 请求（HTTPS），JSON形式
+     *
      * @param apiUrl API接口URL
-     * @param json JSON对象
+     * @param json   JSON对象
      * @return
      */
     public static String doPostSSL(String apiUrl, Object json) {
@@ -488,9 +483,9 @@ public class HttpRequestUtils {
 
         try {
             httpPost.setConfig(requestConfig);
-            StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8");// 解决中文乱码问题
-            stringEntity.setContentEncoding("UTF-8");
-            stringEntity.setContentType("application/json");
+            StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8" );// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8" );
+            stringEntity.setContentType("application/json" );
             httpPost.setEntity(stringEntity);
             response = httpClient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -501,18 +496,15 @@ public class HttpRequestUtils {
             if (entity == null) {
                 return null;
             }
-            httpStr = EntityUtils.toString(entity, "utf-8");
-        }
-        catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
-        }
-        finally {
+            httpStr = EntityUtils.toString(entity, "utf-8" );
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
             if (response != null) {
                 try {
                     EntityUtils.consume(response.getEntity());
-                }
-                catch (IOException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
         }
@@ -552,9 +544,8 @@ public class HttpRequestUtils {
                 public void verify(String host, String[] cns, String[] subjectAlts) throws SSLException {
                 }
             });
-        }
-        catch (GeneralSecurityException e) {
-            LOGGER.error(e.getMessage(),e);
+        } catch (GeneralSecurityException e) {
+            LOGGER.error(e.getMessage(), e);
         }
         return sslsf;
     }

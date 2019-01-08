@@ -4,7 +4,7 @@
 <mapper namespace="com.chamc.process.mapper.AttachmentMapper">
 
     <sql id="columns">
-      id, name, ext, size, upload_time, uid, url
+        id, name, ext, size, upload_time, uid, url
     </sql>
 
     <resultMap id="columnMap" type="Attachment">
@@ -16,23 +16,29 @@
     </resultMap>
 
     <select id="getUserAttach" resultMap="columnMap" parameterType="Long">
-        SELECT <include refid="columns"/> FROM s_attachment WHERE uid = #{userid}
+        SELECT
+        <include refid="columns"/>
+        FROM s_attachment WHERE uid = #{userid}
     </select>
 
     <insert id="save" parameterType="Attachment" useGeneratedKeys="true">
-        INSERT INTO s_attachment (<include refid="columns"/>) VALUES (#{id}, #{name}, #{ext}, #{size}, NOW(), #{uid}, #{url})
+        INSERT INTO s_attachment (<include refid="columns"/>) VALUES (#{id}, #{name}, #{ext}, #{size}, NOW(), #{uid},
+        #{url})
     </insert>
 
     <select id="getById" resultMap="columnMap" parameterType="Long">
-        SELECT <include refid="columns"/> FROM s_attachment WHERE id = #{id}
+        SELECT
+        <include refid="columns"/>
+        FROM s_attachment WHERE id = #{id}
     </select>
 
     <select id="getUrlByIds" parameterType="Long" resultMap="columnMap">
         SELECT id, url
         FROM s_attachment
-        WHERE id in <foreach collection="ids" item="id" separator="," open="(" close=")" index="idx">
-                      #{id}
-                    </foreach>
+        WHERE id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")" index="idx">
+            #{id}
+        </foreach>
     </select>
 
     <delete id="deleteByIds" parameterType="Long">

@@ -16,14 +16,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * Created by Jaynnay on 2018/4/16
  * extends ResponseEntityExceptionHandler或者使用ExceptionHandler处理异常，二者不可混用
- *
  **/
-@RestControllerAdvice(basePackages="com.chamc.process.controller",annotations={RestController.class})
+@RestControllerAdvice(basePackages = "com.chamc.process.controller", annotations = {RestController.class})
 @Slf4j
 public class ControllerAdvisor implements ResponseBodyAdvice {
     @ExceptionHandler(ProcessException.class)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseModel handleServiceExpcetion(ProcessException e){
+    public ResponseModel handleServiceExpcetion(ProcessException e) {
         Integer code = e.getErrorCode().getCode();
         String message = e.getErrorCode().getMessage();
 
@@ -44,12 +43,13 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
         model.setCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
         model.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
         String classname = ex.getClass().getSimpleName();
-        log.error("{} is occured, message is {}",classname, ex.getMessage());
+        log.error("{} is occured, message is {}", classname, ex.getMessage());
         return model;
     }
 
     /**
      * 参数校验
+     *
      * @param ex
      * @return
      */
@@ -61,7 +61,7 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
         model.setCode(HttpStatus.BAD_REQUEST.value());
         model.setMsg(ex.getFieldError().getDefaultMessage());
         String classname = ex.getClass().getSimpleName();
-        log.error("{} is occured, message is {}",classname, ex.getMessage());
+        log.error("{} is occured, message is {}", classname, ex.getMessage());
         return model;
     }
 
@@ -73,7 +73,7 @@ public class ControllerAdvisor implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         NoWrapper annotation = methodParameter.getMethod().getAnnotation(NoWrapper.class);
-        if(annotation == null){
+        if (annotation == null) {
             ResponseModel model = new ResponseModel();
             model.setCode(200);
             model.setData(body);

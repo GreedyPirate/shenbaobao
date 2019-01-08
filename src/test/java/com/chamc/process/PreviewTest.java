@@ -22,7 +22,7 @@ public class PreviewTest {
     RegisterMapper registerMapper;
 
     @Test
-    public void testPreview(){
+    public void testPreview() {
         List<PreviewForm> preview = this.registerMapper.getPreview(1l);
         Assert.assertNotNull(preview);
     }
